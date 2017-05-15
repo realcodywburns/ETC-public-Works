@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>State Bot v0.0.1</title>
+  <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link rel="shortcut icon" href="./img/favicon.ico">
+  <link rel="stylesheet" href="./css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/bootstrap.css">
+ </head>
+
+
+<body style = "background-color: #333300">
+  <div id="wrapper">
+    <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">State Bot version 0.0.1</a>
+		<ul class="nav navbar-nav navbar-right">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#aboutModal">
+  About Statebot
+	</button>
+	 </div>    
+    </div>
+  </nav>
+<div id="aboutModal" class="modal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+        <h4 class="modal-title">About Statebot</h4>
+      </div>
+      <div class="modal-body" style="text-align: center">
+        <p> <br>State bot provides a public service to reasearchers interestd in ethereum classic. Every 7 days, state bot exports the latest state in json format to the IPFS network and updates its smart contract.
+		<br>
+		
+		<br>
+			Statebot is a truly decentralized application which utlizes Ethereum classic, IPFS, the MEW framework, and Javascript. It is entirely hosted on the Interplanitary file system and interates with its parent contract through public web3 api points. The parent contract is located at 0x28bfbf40bf22e3e78767fa3ba321e7311374ddda<br>
+			<hr>If you are running an IPFS node please add statebot or the latest JSON to your node and help everyone by seeding for a few days. 
+		</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+		
+			<div class="panel panel-default col-med-4" style="text-align:center">
+				<div class="panel-body">
+					<h4> The next update should occur in:</h4>
+					<h1 id="demo" ></h1>
+					<h4>The latest JSON state is located at:</h4>
+					<a href="#" id="currentAccount">TEST</a>
+				</div>
+			</div>
+
+
+	<div class="row">
+		<div class="col-sm-4" >
+		<img src="img/statebot.gif" class=".img-responsive" alt="Statebot" ></img>
+		</div>
+		<div class="col-sm-8" style="background-color:pink;">
+			<table  class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th>#</th>
+						<th>Address</th>
+						<th>Date added</th>
+					</tr>
+					</thead>
+					<tbody id="oldFileTable"></tbody>
+				</table>
+		</div>
+	</div>
+</div>
+	<aside>
+ 
+    </aside>
+    <footer>
+      
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script src="https://bootswatch.com/assets/js/custom.js"></script>
+		<script type="text/javascript" src="https://rawgit.com/ethereum/web3.js/develop/dist/web3.min.js"></script>
+		<script type="text/javascript" src="https://rawgit.com/ethereumproject/etherwallet/gh-pages/js/etherwallet-master-min.js"></script>
+		<script type="text/javascript" src="js/statebot.js"></script>
+		
+      <script>/* <![CDATA[*/(function(d,s,a,i,j,r,l,m,t){try{l=d.getElementsByTagName('a');t=d.createElement('textarea');for(i=0;l.length-i;i++){try{a=l[i].href;s=a.indexOf('/cdn-cgi/l/email-protection');m=a.length;if(a&&s>-1&&m>28){j=28+s;s='';if(j<m){r='0x'+a.substr(j,2)|0;for(j+=2;j<m&&a.charAt(j)!='X';j+=2)s+='%'+('0'+('0x'+a.substr(j,2)^r).toString(16)).slice(-2);j++;s=decodeURIComponent(s)+a.substr(j,m-j)}t.innerHTML=s.replace(/</g,'&lt;').replace(/\>/g,'&gt;');l[i].href='mailto:'+t.value}}catch(e){}}}catch(e){}})(document);/* ]]> */</script>
+
+
+
+    </footer>
+  </div>
+</body>
+</html>
