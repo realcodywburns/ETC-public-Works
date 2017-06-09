@@ -8,9 +8,11 @@ pragma solidity ^0.4.11;
 // license: Apache 2.0
 
 // usage:
-// NOT PRODUCTION READY! DO NOT USE THIS FOR REAL WORLD YET! (or do it wroks okay)
+// NOT PRODUCTION READY! DO NOT USE THIS FOR REAL WORLD YET! (or do it, works okay)
 // This managing contract is a general purpose token. Users can register the token address, symbol. decimal, type, and icon location(url for a set fee)
-// It needs an owner, should be able to register with a category contract, and handle comments, and allow for some data to be hidden unless paid for(in the future)
+// It needs an owner who can assign Managers. Managers can edit token details. Output is all meta token data by item.
+// still needs: improved item editing management, test framework, access levels for admins, all outputs for meta data, externalize admin to onlyAdmin contract 
+// submit pr and issues to https://github.com/realcodywburns/ETC-public-Works/edit/master/public-registry/manager.sol
 
 
 contract owned{
@@ -22,6 +24,8 @@ contract owned{
           _;
           }
   }
+ 
+  
 contract priced {
     // Modifiers can receive arguments:
     modifier costs(uint price) {
