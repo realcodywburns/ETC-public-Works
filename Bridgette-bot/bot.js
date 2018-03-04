@@ -10,9 +10,6 @@ var uri = 'http://127.0.0.1:8545';
 
 var web3 = new Web3(new Web3.providers.HttpProvider(uri));
 
-function getBlock(){
-
-}
 
 // Configure logger settings
 logger.remove(logger.transports.Console);
@@ -45,7 +42,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             case 'web3':
                 bot.sendMessage({
                     to: channelID,
-                    message: 'Hi! I\'m Bridgette the ETC web3 bot. To find out what I can do check out '
+                    message: 'Hi! I\'m Bridgette the ETC web3 bot. To find out what I can do check out: https://github.com/realcodywburns/ETC-public-Works/blob/master/Bridgette-bot/README.MD '
                 });
             break;
             // Just add any case commands if you want to..
@@ -103,11 +100,16 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             break;
             case 'sendRawTransaction':
              if(payload != undefined){
-              web3.eth.sendRawTransaction(payload).then(
-              hash => {
+              web3.eth.sendSignedTransaction(payload)
+              .then( (hash) => {
                 bot.sendMessage({
                     to: channelID,
                     message: "Transaction Hash is: " + hash
+                });
+              }).catch((err) => {
+                bot.sendMessage({
+                    to: channelID,
+                    message: "Oops: " + err
                 });
               });
             } else {
@@ -117,7 +119,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
               });
             }
             break;
-            
+
          }
      }
 });
