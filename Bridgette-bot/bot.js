@@ -36,6 +36,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
         var args = message.substring(1).split(' ');
         var cmd = args[0];
         var payload = args[1];
+
         args = args.splice(1);
         switch(cmd) {
             // !ping
@@ -56,14 +57,21 @@ bot.on('message', function (user, userID, channelID, message, evt) {
               });
             break;
             case 'getBalance':
-             if(payload != undefined){
-              web3.eth.getBalance(payload).then(
-              Balance => {
+             if(payload != undefined && payload.length > 39){
+              //console.log(payload);
+              web3.eth.getBalance(payload)
+              .then( Balance => {
                 bot.sendMessage({
                     to: channelID,
                     message: "The balance at account " + payload + " is: " + Balance * .000000000000000001
                 });
+              }).catch((err) => {
+                bot.sendMessage({
+                    to: channelID,
+                    message: "Oops: " + err
+                });
               });
+
             } else {
               bot.sendMessage({
                   to: channelID,
@@ -90,6 +98,11 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                       + "  gas: " + transaction.gas + "\n"
                       + "  input: " + transaction.input
                 });
+              }).catch((err) => {
+                bot.sendMessage({
+                    to: channelID,
+                    message: "Oops: " + err
+                });
               });
             } else {
               bot.sendMessage({
@@ -104,7 +117,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
               .then( (hash) => {
                 bot.sendMessage({
                     to: channelID,
-                    message: "Transaction Hash is: " + hash
+                    message: "Transaction Hash is: " + JSON.parse(hash)
                 });
               }).catch((err) => {
                 bot.sendMessage({
