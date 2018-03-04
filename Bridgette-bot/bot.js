@@ -86,6 +86,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 bot.sendMessage({
                     to: channelID,
                     message: "Transaction info: \n"
+                      + " ```\n " +
                       + "  hash: " + transaction.hash + "\n"
                       + "  nonce: " + transaction.nonce + "\n"
                       + "  blockHash: " + transaction.blockHash + "\n"
@@ -96,7 +97,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                       + "  value: " + transaction.value + "\n"
                       + "  gasPrice: " + transaction.gasPrice + "\n"
                       + "  gas: " + transaction.gas + "\n"
-                      + "  input: " + transaction.input
+                      + "  input: " + transaction.input + "\n"
+                      + " ```"
                 });
               }).catch((err) => {
                 bot.sendMessage({
@@ -114,10 +116,10 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             case 'sendRawTransaction':
              if(payload != undefined){
               web3.eth.sendSignedTransaction(payload)
-              .then( (hash) => {
+              .then( hash => {
                 bot.sendMessage({
                     to: channelID,
-                    message: "Transaction Hash is: " + JSON.parse(hash)
+                    message: "Transaction Hash is: " + hash.transactionHash
                 });
               }).catch((err) => {
                 bot.sendMessage({
