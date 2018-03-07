@@ -1,14 +1,7 @@
 var Discord = require('discord.io');
 var logger = require('winston');
 var auth = require('./auth.json');
-var Web3 = require('web3');
-
-// basic information about the dapp
-var uri = 'http://127.0.0.1:8545';
-//var uri =  'https://mewapi.epool.io';
-
-
-var web3 = new Web3(new Web3.providers.HttpProvider(uri));
+var web3 = require('./lib/etherNode');
 
 
 // Configure logger settings
@@ -30,7 +23,9 @@ bot.on('ready', function (evt) {
     logger.info(bot.username + ' - (' + bot.id + ')');
 });
 
-//functoins
+
+//* Get functions from library *//
+
 var bridgette = require('./lib/bridgette');
 var getBlockNumber = require('./lib/getBlockNumber');
 var getBalance = require('./lib/getBalance');
@@ -38,8 +33,11 @@ var getTransaction = require('./lib/getTransactions');
 var sendSignedTransaction = require('./lib/sendSignedTransaction')
 var getGasPrice = require('./lib/getGasPrice');
 var getBlock = require('./lib/getBlock');
-var error = require('./lib/error');
 
+//apps
+var statebot = require('./lib/statebot')
+var error = require('./lib/error');
+//* end functoin set*//
 
 bot.on('message', function (user, userID, channelID, message, evt) {
     // Our bot needs to know if it will execute a command
@@ -138,6 +136,17 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             }
             break;
 
+            case 'statebot':
+            statebot.methods.currentAddr().call()
+            .then( ca => {
+              bot.sendMessage({
+              to: channelID,
+              message :  "The most current state dump is located at http://ipfs.io/ipfs/" +ca
+              });
+            });
+
+
+            break;
 }
      }
 });

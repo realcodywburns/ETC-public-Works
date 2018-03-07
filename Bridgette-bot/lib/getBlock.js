@@ -1,5 +1,7 @@
 module.exports = (channelID, funcs, rawBlk) => {
 
+  //transactions = rawBlk.transactions.length;
+
 return{
   to: channelID,
   message : "```"
@@ -18,7 +20,9 @@ return{
   + "extraData : " + rawBlk.extraData + "\n"
   + "gasLimit : " + rawBlk.gasLimit + "\n"
   + "gasUsed : " + rawBlk.gasUsed + "\n"
-  + "timestamp : " + rawBlk.timestamp
+  + "timestamp : " + rawBlk.timestamp + "\n"
+  + "Number of Transactions : " + rawBlk.transactions.length+ "\n"
+  + "Number of Uncles : " + rawBlk.uncles.length
   + "```"
   };
 };
