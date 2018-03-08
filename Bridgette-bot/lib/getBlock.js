@@ -1,3 +1,5 @@
+var web3 = require('web3');
+
 module.exports = (channelID, funcs, rawBlk) => {
 
   //transactions = rawBlk.transactions.length;
@@ -17,7 +19,7 @@ return{
   + "difficulty : " + rawBlk.difficulty + "\n"
   + "totalDifficulty : " + rawBlk.totalDifficulty + "\n"
   + "size : " + rawBlk.size + "\n"
-  + "extraData : " + rawBlk.extraData + "\n"
+  + "extraData : " + web3.utils.toAscii(rawBlk.extraData) + "\n"
   + "gasLimit : " + rawBlk.gasLimit + "\n"
   + "gasUsed : " + rawBlk.gasUsed + "\n"
   + "timestamp : " + rawBlk.timestamp + "\n"
