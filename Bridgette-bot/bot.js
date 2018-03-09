@@ -47,7 +47,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
     // It will listen for messages that will start with `!`
     if (message.substring(0, 1) == '!') {
         var args = message.substring(1).split(' ');
-        var cmd = args[0];
+        var cmd = args[0].toLowerCase();
         var payload = args[1];
 
         args = args.splice(1);
@@ -55,8 +55,9 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             case 'web3':
                 bot.sendMessage(bridgette(channelID));
               break;
-
-            case 'getBlockNumber':
+                
+            // getBlockNumber
+            case 'getblocknumber':
               web3.eth.getBlockNumber()
               .then(blockNumber => {
                 bot.sendMessage(getBlockNumber(channelID, blockNumber));
@@ -64,8 +65,9 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 bot.sendMessage(error(channelID, err))
               });
             break;
-
-            case 'getBalance':
+            
+            // getBalance
+            case 'getbalance':
              if(payload != undefined && web3.utils.isAddress(payload)){
               web3.eth.getBalance(payload)
               .then( balance => {
@@ -81,7 +83,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             }
             break;
 
-            case 'getTransaction':
+            // getTransaction
+            case 'gettransaction':
              if(payload != undefined){
               web3.eth.getTransaction(payload).then(
               transaction => {
@@ -97,7 +100,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             }
             break;
 
-            case 'sendSignedTransaction':
+            // sendSignedTransaction
+            case 'sendsignedtransaction':
              if(payload != undefined){
               web3.eth.sendSignedTransaction(payload)
               .then( hash => {
@@ -113,7 +117,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             }
             break;
 
-            case 'gasPrice' :
+            // gasPrice
+            case 'gasprice' :
             web3.eth.getGasPrice()
             .then(gas => {
               bot.sendMessage(getGasPrice(channelID, gas))
@@ -122,7 +127,8 @@ bot.on('message', function (user, userID, channelID, message, evt) {
               });
             break;
 
-            case 'getBlock':
+            // getBlock
+            case 'getblock':
              if(payload != undefined){
               var funcs = args[2];
               web3.eth.getBlock(payload)
