@@ -23,6 +23,9 @@ bot.on('ready', function (evt) {
     logger.info(bot.username + ' - (' + bot.id + ')');
 });
 
+function isNumber(n) {
+  return !isNaN(parseFloat(n)) && isFinite(n);
+}
 
 //* Get functions from library *//
 
@@ -33,7 +36,7 @@ var getTransaction = require('./lib/getTransactions');
 var sendSignedTransaction = require('./lib/sendSignedTransaction')
 var getGasPrice = require('./lib/getGasPrice');
 var getBlock = require('./lib/getBlock');
-
+var query = require('./lib/query');
 //apps
 var statebot = require('./lib/statebot')
 var error = require('./lib/error');
@@ -136,6 +139,45 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             }
             break;
 
+            case 'query':
+             if(payload != undefined && isNumber(payload)){
+               console.log(payload.length);
+              if(web3.utils.isAddress(payload)){
+              web3.eth.getBalance(payload)
+              .then( balance => {
+                bot.sendMessage(getBalance(channelID, payload, balance));
+              }).catch((err) => {
+                bot.sendMessage(error(channelID, err))
+              });
+            } else if (payload.length == 66 ){
+              web3.eth.getTransaction(payload).then(
+              transaction => {
+                bot.sendMessage(getTransaction(channelID, payload, transaction));
+              })
+            } else if (payload.length <= 9) {
+              web3.eth.getBlock(payload)
+              .then( rawBlk => {
+                bot.sendMessage(getBlock(channelID, funcs, rawBlk))
+              })
+              .catch((err) => {
+                bot.sendMessage(error(channelID, err))
+              });
+            } else {
+              bot.sendMessage({
+                  to: channelID,
+                  message: "Query requires a payload of txId, or account, block number, or something (i.e. !query <something>)"
+              });
+            }
+          } else {
+            bot.sendMessage({
+                to: channelID,
+                message: "Query requires a payload of txId, or account, block number, or something (i.e. !query <something>)"
+            });
+          };
+
+            break;
+
+//* dapps *//
             case 'statebot':
             statebot.methods.currentAddr().call()
             .then( ca => {
@@ -144,8 +186,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
               message :  "The most current state dump is located at http://ipfs.io/ipfs/" +ca
               });
             });
-
-
             break;
 }
      }
