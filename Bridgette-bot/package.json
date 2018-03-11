@@ -4,7 +4,8 @@
   "description": "connect discord to ethereum nodes",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "forever start bot.js"
   },
   "author": "Cody W Burns < DontPanic >",
   "license": "Apache-2.0",
