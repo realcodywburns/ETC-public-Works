@@ -1,7 +1,7 @@
 var assert = require('assert');
 
 //* unit under test *//
-var error = require('../../lib/error');
+var error = require('../lib/error');
 
 
 module.exports = describe('error reporting', function() {

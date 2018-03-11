@@ -2,7 +2,7 @@ var assert = require('assert');
 
 //* unit tests *//
 
-var error = require('./unit/error');
+var error = require('../Bridgette-bot/test/error');
 //* end unit tests *//
 
 /* tests */
