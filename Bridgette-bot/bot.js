@@ -17,6 +17,7 @@ var bot = new Discord.Client({
    token: auth.token,
    autorun: true
 });
+
 bot.on('ready', function (evt) {
     logger.info('Connected');
     logger.info('Logged in as: ');
@@ -38,7 +39,8 @@ var getGasPrice = require('./lib/getGasPrice');
 var getBlock = require('./lib/getBlock');
 var query = require('./lib/query');
 //apps
-var statebot = require('./lib/statebot')
+var statebot = require('./lib/statebot');
+var multi = require('./lib/multi-sig');
 var error = require('./lib/error');
 //* end functoin set*//
 
@@ -55,7 +57,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
             case 'web3':
                 bot.sendMessage(bridgette(channelID));
               break;
-                
+
             // getBlockNumber
             case 'getblocknumber':
               web3.eth.getBlockNumber()
@@ -65,7 +67,7 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                 bot.sendMessage(error(channelID, err))
               });
             break;
-            
+
             // getBalance
             case 'getbalance':
              if(payload != undefined && web3.utils.isAddress(payload)){
@@ -193,6 +195,26 @@ bot.on('message', function (user, userID, channelID, message, evt) {
               });
             });
             break;
+
+            case 'community':
+              if(payload != undefined){
+                switch(payload) {
+                  case 'address':
+                    bot.sendMessage({
+                      to: channelID,
+                      message :  "The community multisig is located at: `" + multi.options.address + "`"
+                    });
+                    break;
+                  case 'balance':
+                  web3.eth.getBalance(multi.options.address)
+                    .then (res => {
+                      bot.sendMessage(getBalance(channelID, "Community Multisig", res))
+                      });
+                    break;
+                    }
+                }
+
+
 }
      }
 });
