@@ -4,7 +4,8 @@ var assert = require('assert');
 var error = require('../lib/error');
 
 
-module.exports = describe('error reporting', function() {
+module.exports =
+describe('error reporting', function() {
       it('returns correct error statement', function() {
         var res = error('123', 'im an error');
         assert.equal(res.to, '123', 'error returns correct channel');
