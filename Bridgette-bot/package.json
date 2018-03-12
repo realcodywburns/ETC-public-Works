@@ -4,6 +4,7 @@
   "description": "connect discord to ethereum nodes",
   "main": "index.js",
   "scripts": {
+
     "test": "mocha",
     "start": "forever start bot.js"
   },
