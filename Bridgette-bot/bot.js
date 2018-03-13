@@ -41,17 +41,21 @@ var query = require('./lib/query');
 //apps
 var statebot = require('./lib/statebot');
 var multi = require('./lib/multi-sig');
+var donate = require('./lib/donate');
+var donatehelp = require('./lib/donatehelp')
 var error = require('./lib/error');
 //* end functoin set*//
 
-bot.on('message', function (user, userID, channelID, message, evt) {
+bot.on('message', async function (user, userID, channelID, message, evt) {
     // Our bot needs to know if it will execute a command
     // It will listen for messages that will start with `!`
     if (message.substring(0, 1) == '!') {
         var args = message.substring(1).split(' ');
         var cmd = args[0].toLowerCase();
         var payload = args[1];
-
+        if (args[2] != null){
+        var dLoad = [args[1].toLowerCase(), args[2], args[3]];
+      }
         args = args.splice(1);
         switch(cmd) {
             case 'web3':
@@ -149,7 +153,6 @@ bot.on('message', function (user, userID, channelID, message, evt) {
 
             case 'query':
              if(payload != undefined && isNumber(payload)){
-               console.log(payload.length);
               if(web3.utils.isAddress(payload)){
               web3.eth.getBalance(payload)
               .then( balance => {
@@ -212,9 +215,24 @@ bot.on('message', function (user, userID, channelID, message, evt) {
                       });
                     break;
                     }
+                } else {
+                  bot.sendMessage({
+                  to: channelID,
+                  message :  "Please use either !community balance or community address"
+                  });
                 }
+              break;
+            case 'donate' :
+              if(payload != undefined){
+                bot.sendMessage({
+                to: channelID,
+                message :  'Creating a contract with ' + dLoad[2] +' as the owner giving ' + dLoad[1] +'% of anything donated to '+ dLoad[0] + '.'
+              });
+                bot.sendMessage(await donate(channelID, user,dLoad))
+              } else {
+                bot.sendMessage(donatehelp(channelID));
+              }
 
-
-}
+            }
      }
 });
