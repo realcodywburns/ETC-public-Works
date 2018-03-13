@@ -15,7 +15,7 @@ module.exports = (channelID) => {
     + "       statebot: gives the latest state dump" +"\n"
     + "       getETC: get a small amount of etc if you need gas money " +"\n"
     + "       community: see the balance of the community multisig" +"\n"
-    + "       donate <team> <percent> <addr>: get a contract to donate to you fav dev team" +"\n"
+    + "       donate <team> <percent> <addr>: get a contract to donate to your fav dev team" +"\n"
     + "```"
 
   };
