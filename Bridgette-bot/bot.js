@@ -42,7 +42,9 @@ var query = require('./lib/query');
 var statebot = require('./lib/statebot');
 var multi = require('./lib/multi-sig');
 var donate = require('./lib/donate');
-var donatehelp = require('./lib/donatehelp')
+var donatehelp = require('./lib/donatehelp');
+var getetc = require('./lib/getetc');
+
 var error = require('./lib/error');
 //* end functoin set*//
 
@@ -218,7 +220,7 @@ bot.on('message', async function (user, userID, channelID, message, evt) {
                 } else {
                   bot.sendMessage({
                   to: channelID,
-                  message :  "Please use either !community balance or community address"
+                  message :  "Please use either `!community balance` or `!community address`"
                   });
                 }
               break;
@@ -232,7 +234,22 @@ bot.on('message', async function (user, userID, channelID, message, evt) {
               } else {
                 bot.sendMessage(donatehelp(channelID));
               }
+              break;
 
+            case 'getetc' :
+              if(payload != undefined && web3.utils.isAddress(payload)){
+                  bot.sendMessage({
+                  to: channelID,
+                  message :  'Ok, I\'ll see if I can send some gas money.'
+                });
+                  bot.sendMessage(await getetc(channelID, user, payload))
+                } else {
+                  bot.sendMessage({
+                  to: channelID,
+                  message :  "Sorry" + user + " try again later!"
+                  });
+                }
+                break;
             }
      }
 });
