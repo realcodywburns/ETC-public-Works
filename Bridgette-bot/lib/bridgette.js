@@ -3,7 +3,7 @@ module.exports = (channelID) => {
     to: channelID,
     message: "``` I am Bridgette, the minimilst web3 bridge." + "\n"
     + "    Commands: " + "\n"
-    + "        query: use <addr> <blkNumber> or <txHash> to get info" +"\n"
+    + "        query: use <addr> or <blkNumber> or <txHash> to get info" +"\n"
     + "   ;    getBlockNumber : returns the current block number" +"\n"
     + "  [\"]   getBalance <account>: returns an account\'s balance" +"\n"
     + " /[_]\\  getTransaction <txId>: get info on a transaction" +"\n"

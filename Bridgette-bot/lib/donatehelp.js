@@ -11,6 +11,7 @@ module.exports = (channelID) => {
     + "  [\"]   Coop : the etc cooporative" +"\n"
     + " /[_]\\  ETCdev : ETCdev team  " +"\n"
     + "  ] [   dex : the ETC Commonwealth team " +"\n"
+    + "        epool : the public API point"
     + "        BCRD : Burns Capital: R & D. Dont Panic's ETC-public-works" +"\n"
     + "```"
 
