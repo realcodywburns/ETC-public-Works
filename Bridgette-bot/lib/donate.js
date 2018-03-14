@@ -36,6 +36,8 @@ if (args.length == 3) {
     donateAddr = "0x0e7c045110b8dbf29765047380898919c5cb56f4";
   }else if (donate == "dex") {
     donateAddr = "0x52823e725a34d42e14a1b66fb67299C30c4d8Edf";
+  } else if (donate == "epool") {
+    donateAddr = "0xbe14b9f55d789efd5ee1c10cffd2d04e340b3b06";
   } else if (donate == "bcrd") {
     donateAddr = "0xCe5ED529977b08f87CBc207ebC216859820461eE";
   } else {
