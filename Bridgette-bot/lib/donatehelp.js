@@ -8,10 +8,10 @@ module.exports = (channelID) => {
     + " " +"\n"
     + "    Teams: " + "\n"
     + "   ;    Community : The community multisig" +"\n"
-    + "  [\"]   Coop : the etc cooporative" +"\n"
+    + "  [\"]   Coop : the etc cooporative (soon)" +"\n"
     + " /[_]\\  ETCdev : ETCdev team  " +"\n"
     + "  ] [   dex : the ETC Commonwealth team " +"\n"
-    + "        epool : the public API point"
+    + "        epool : the public API point" +"\n"
     + "        BCRD : Burns Capital: R & D. Dont Panic's ETC-public-works" +"\n"
     + "```"
 
