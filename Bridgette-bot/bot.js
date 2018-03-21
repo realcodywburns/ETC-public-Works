@@ -30,7 +30,6 @@ function isNumber(n) {
 
 //* Get functions from library *//
 
-var bridgette = require('./lib/bridgette');
 var getBlockNumber = require('./lib/getBlockNumber');
 var getBalance = require('./lib/getBalance');
 var getTransaction = require('./lib/getTransactions');
@@ -38,12 +37,18 @@ var sendSignedTransaction = require('./lib/sendSignedTransaction')
 var getGasPrice = require('./lib/getGasPrice');
 var getBlock = require('./lib/getBlock');
 var query = require('./lib/query');
-//apps
+
+// dapps
 var statebot = require('./lib/statebot');
 var multi = require('./lib/multi-sig');
 var donate = require('./lib/donate');
-var donatehelp = require('./lib/donatehelp');
 var getetc = require('./lib/getetc');
+var etcmail = require('./lib/etcmail');
+
+// help files
+var bridgette = require('./help/bridgette');
+var donatehelp = require('./help/donatehelp');
+var etcmailhelp = require('./help/etcmailhelp');
 
 var error = require('./lib/error');
 //* end functoin set*//
@@ -246,10 +251,23 @@ bot.on('message', async function (user, userID, channelID, message, evt) {
                 } else {
                   bot.sendMessage({
                   to: channelID,
-                  message :  "Sorry" + user + " try again later!"
+                  message :  "Sorry" + user + " try again with an address!"
                   });
                 }
                 break;
+
+            case 'etcmail' :
+              if(payload != undefined){
+                bot.sendMessage({
+                  to: channelID,
+                  message :  'Ok, I will send a message to' + dLoad[0] +' please give me a few blocks.'
+                });
+                bot.sendMessage(await etcmail(channelID, user,dLoad))
+              } else {
+                bot.sendMessage(etcmailhelp(channelID));
+              }
+
+            break;
             }
      }
 });
