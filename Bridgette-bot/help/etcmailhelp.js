@@ -8,7 +8,7 @@ module.exports = (channelID) => {
     + "  Simple plaintext message:" +"\n"
     + "   !mail send <addr> <\" your message \"> " +"\n"
     + " " +"\n"
-    + "  Encrypted message: " + "\n"
+    + "  Encrypted message: {disabled}" + "\n"
     + "   !mail encrypt <addr> <\" your message \"> " +"\n"
     + "       " +"\n"
     + "  CHECKING MAIL: " +"\n"

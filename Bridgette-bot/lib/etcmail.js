@@ -3,7 +3,7 @@
 var web3 = require('./etherNode');
 var dapp = require('../dapp');
 var auth = require('../auth');
-var bot = require('../bot');
+var botUnits = require('./botUnits')
 
 const ABI = dapp.a2a.abi;
 const ADDR = dapp.a2a.address;
@@ -17,18 +17,14 @@ module.exports = async (channelID, sender,  args) => {
         "text" : "",
     "bridgette": "| This message was delivered by Bridgette. Please do not reply to her address | "
   }
-  for(i = 0; i < args.length; i++){
-  console.log(i+ " " +args[i] + "\n");
-    }
   switch(args[0]){
       case "send" :
         messageBody.from = sender;
         for(i = 2; i < args.length; i++){
         messageBody.text = messageBody.text + args[i] + " ";
           }
-        console.log(messageBody.text);
-        var rawMsg = "From: "+ messageBody.from + " \n "
-                      + messageBody.text + "\n "
+        var rawMsg = "From: "+ messageBody.from + "\n"
+                      + messageBody.text + "\n"
                       + messageBody.bridgette;
         web3.eth.personal.unlockAccount(auth.account, auth.passwd);
         var gas = await a2a.methods.sendMessage(args[1], rawMsg).estimateGas({from: auth.account});
@@ -66,11 +62,12 @@ module.exports = async (channelID, sender,  args) => {
       case "fetch":
         const index = await a2a.methods.getMessageByIndex(args[2], args[1]).call()
           .then( res => {
+            var datetime = botUnits.formatDate(res[2]);
             return  "``` message: "+ args[1] + "\n"
                       + "-------------------------- \n"
                       + "\n"
                       + "Sender: " + res[0] + "\n"
-                      + "Timestamp:" + res[2] + "\n"
+                      + "Timestamp:" + datetime + "\n"
                       + res[1] + "\n"
                       + "```"
 
@@ -83,11 +80,13 @@ module.exports = async (channelID, sender,  args) => {
         case "new":
           const latest = await a2a.methods.getLastMessage(args[1]).call()
             .then( res => {
+              var datetime = botUnits.formatDate(res[2]);
+              //console.log("this "+datetime);
               return  "``` Latest: \n"
                         + "-------------------------- \n"
                         + "\n"
                         + "Sender: " + res[0] + "\n"
-                        + "Timestamp:" + res[2] + "\n"
+                        + "Timestamp: " + datetime + "\n"
                         + res[1] + "\n"
                         + "```"
             });
