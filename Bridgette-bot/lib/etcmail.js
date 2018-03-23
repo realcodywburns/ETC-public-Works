@@ -11,24 +11,35 @@ const ADDR = dapp.a2a.address;
 const a2a = new web3.eth.Contract(ABI, ADDR);
 
 
+
 module.exports = async (channelID, sender,  args) => {
+
   var messageBody = {
         "from" : "",
         "text" : "",
     "bridgette": "| This message was delivered by Bridgette. Please do not reply to her address | "
   }
-  switch(args[0]){
+
+  const panic = {
+      to: channelID,
+      message : "Something went wrong"
+    };
+
+
+  switch(args[0].toLowerCase()){
       case "send" :
+        var _to = findAddr(args);
+        if (_to.addr == 0){return panic};
         messageBody.from = sender;
-        for(i = 2; i < args.length; i++){
+        for(i = _to.startint ; i < args.length; i++){
         messageBody.text = messageBody.text + args[i] + " ";
           }
         var rawMsg = "From: "+ messageBody.from + "\n"
                       + messageBody.text + "\n"
                       + messageBody.bridgette;
         web3.eth.personal.unlockAccount(auth.account, auth.passwd);
-        var gas = await a2a.methods.sendMessage(args[1], rawMsg).estimateGas({from: auth.account});
-        const msg = await a2a.methods.sendMessage(args[1], rawMsg).send({
+        var gas = await a2a.methods.sendMessage(_to.addr, rawMsg).estimateGas({from: auth.account});
+        const msg = await a2a.methods.sendMessage(_to.addr, rawMsg).send({
           from: auth.account,
           gas: Math.round(gas * 1.5),
           gasPrice: '20000000000'
@@ -44,14 +55,18 @@ module.exports = async (channelID, sender,  args) => {
           message : msg
         }
         break;
+
+    //* get message count *//
       case "count":
-        const last = await a2a.methods.lastIndex(args[1]).call()
+        var _to = findAddr(args);
+        if (_to.addr == 0){return panic};
+        const last = await a2a.methods.lastIndex(args[_to.addr]).call()
           .then( res => {
            if(res != undefined){
             console.log(res);
-            return "Account `" + args[1].substring(0,10) + "` has " + res + " messages.";
+            return "Account `" + args[_to.addr].substring(0,10) + "` has " + res + " messages.";
           } else {
-            return "Account `" + args[1].substring(0,10) + "` has no messages."
+            return "Account `" + args[_to.addr].substring(0,10) + "` has no messages."
           };
         });
         return{
@@ -59,6 +74,8 @@ module.exports = async (channelID, sender,  args) => {
           message :  last
         };
         break;
+      //* get message by number *//
+
       case "fetch":
         const index = await a2a.methods.getMessageByIndex(args[2], args[1]).call()
           .then( res => {
@@ -78,7 +95,9 @@ module.exports = async (channelID, sender,  args) => {
           };
            break;
         case "new":
-          const latest = await a2a.methods.getLastMessage(args[1]).call()
+          var _to = findAddr(args);
+          if (_to.addr == 0){return panic};
+          const latest = await a2a.methods.getLastMessage(args[_to.addr]).call()
             .then( res => {
               var datetime = botUnits.formatDate(res[2]);
               //console.log("this "+datetime);
@@ -96,8 +115,23 @@ module.exports = async (channelID, sender,  args) => {
             };
           break;
         };
-      return  {
-          to: channelID,
-          message : "Something went wrong"
-        }
+      return panic;
     };
+
+
+function findAddr(args){
+  if(args[1] != "" && args[1] != undefined &&  web3.utils.isAddress(args[1])) {
+      return {
+        addr : 1,
+        startint : 2};
+    } else if (web3.utils.isAddress(args[2])) {
+      return {
+        addr : 2,
+        startint : 3 };
+
+    } else {
+    return {
+      addr : 0,
+      startint : 0 };
+  }
+}
