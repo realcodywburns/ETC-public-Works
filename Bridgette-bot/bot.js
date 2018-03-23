@@ -11,12 +11,15 @@ logger.add(logger.transports.Console, {
 });
 logger.level = 'debug';
 
+logger.debug('logger loaded');
 
 // Initialize Discord Bot
 var bot = new Discord.Client({
    token: auth.token,
    autorun: true
 });
+logger.debug('logger bot loaded');
+
 
 bot.on('ready', function (evt) {
     logger.info('Connected');
@@ -30,7 +33,6 @@ function isNumber(n) {
 
 //* Get functions from library *//
 
-var bridgette = require('./lib/bridgette');
 var getBlockNumber = require('./lib/getBlockNumber');
 var getBalance = require('./lib/getBalance');
 var getTransaction = require('./lib/getTransactions');
@@ -38,14 +40,24 @@ var sendSignedTransaction = require('./lib/sendSignedTransaction')
 var getGasPrice = require('./lib/getGasPrice');
 var getBlock = require('./lib/getBlock');
 var query = require('./lib/query');
-//apps
+logger.debug('functions loaded');
+
+// dapps
 var statebot = require('./lib/statebot');
 var multi = require('./lib/multi-sig');
 var donate = require('./lib/donate');
-var donatehelp = require('./lib/donatehelp');
 var getetc = require('./lib/getetc');
+var etcmail = require('./lib/etcmail');
+logger.debug('dapps loaded');
+
+// help files
+var bridgette = require('./help/bridgette');
+var donatehelp = require('./help/donatehelp');
+var etcmailhelp = require('./help/etcmailhelp');
 
 var error = require('./lib/error');
+logger.debug('help loaded');
+
 //* end functoin set*//
 
 bot.on('message', async function (user, userID, channelID, message, evt) {
@@ -246,10 +258,25 @@ bot.on('message', async function (user, userID, channelID, message, evt) {
                 } else {
                   bot.sendMessage({
                   to: channelID,
-                  message :  "Sorry" + user + " try again later!"
+                  message :  "Sorry" + user + " try again with an address!"
                   });
                 }
                 break;
+
+            case 'mail' :
+              if(payload != undefined){
+                bot.sendMessage({
+                  to: channelID,
+                  message :  "`Connecting to the mail server...`"
+                });
+                bot.sendMessage(await etcmail(channelID, user, args)
+              .catch((err) => {console.log(err)}));
+              } else {
+                bot.sendMessage(etcmailhelp(channelID));
+              }
+
+            break;
             }
      }
 });
+module.exports = bot;
