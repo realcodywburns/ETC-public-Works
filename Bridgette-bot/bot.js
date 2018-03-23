@@ -265,11 +265,8 @@ bot.on('message', async function (user, userID, channelID, message, evt) {
 
             case 'mail' :
               if(payload != undefined){
-                await etcmail(channelID, user,dLoad)
-                .then( res => {
-                  console.log(to);
-                  //bot.sendMessage(res.to, res.message)
-              });
+                bot.sendMessage(await etcmail(channelID, user,dLoad)
+              .catch((err) => {console.log(err)}));
               } else {
                 bot.sendMessage(etcmailhelp(channelID));
               }
@@ -278,3 +275,4 @@ bot.on('message', async function (user, userID, channelID, message, evt) {
             }
      }
 });
+module.exports = bot;

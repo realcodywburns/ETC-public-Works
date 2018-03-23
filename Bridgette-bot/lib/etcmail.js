@@ -2,7 +2,8 @@
 
 var web3 = require('./etherNode');
 var dapp = require('../dapp');
-var auth = require('../auth')
+var auth = require('../auth');
+var bot = require('../bot');
 
 const ABI = dapp.a2a.abi;
 const ADDR = dapp.a2a.address;
@@ -21,72 +22,72 @@ module.exports = async (channelID, sender,  args) => {
       case "send" :
         messageBody.from = args[1];
         messageBody.text = args[2];
+
+        var rawMsg = messageBody.from + messageBody.text + messageBody.bridgette;
         web3.eth.personal.unlockAccount(auth.account, auth.passwd);
-        const msg = await a2a.methods.sendMessage(args[3], messageBody).send({
+        const msg = await a2a.methods.sendMessage(args[3], rawMsg).send({
           from: auth.account,
           gas: '90000',
           gasPrice: '20000000000'
         })
         .then( res => {
-          return {
-              to: channelID,
-              message : '@'+ sender + ', your message has been sent.'
-            }
+          return "@"+ sender + ", your message has been sent!"
         })
         .catch((err) => {
-        return {
-          to: channelID,
-          message : err
-        }
+        return err
         });
+        return  {
+          to: channelID,
+          message : msg
+        }
         break;
       case "count":
-        console.log("ran count");
         const last = await a2a.methods.lastIndex(args[1]).call()
           .then( res => {
            if(res != undefined){
             console.log(res);
-            return{
-             to: channelID,
-              message :  "Account `" + args[1].substring(0,10) + "` has " + res + " messages."};
-            
+            return "Account `" + args[1].substring(0,10) + "` has " + res + " messages.";
           } else {
-            return{
-              to: channelID,
-              message :  "Account `" + args[1].substring(0,10) + "` has no messages."
+            return "Account `" + args[1].substring(0,10) + "` has no messages."
           };
-        };
         });
+        return{
+          to: channelID,
+          message :  last
+        };
         break;
       case "fetch":
-        a2a.methods.getMessageByIndex(args[2], args[1]).call()
+        const index = await a2a.methods.getMessageByIndex(args[2], args[1]).call()
           .then( res => {
-            return{
-            to: channelID,
-            message :  "``` message: "+ args[1] + "\n"
+            return  "``` message: "+ args[1] + "\n"
                       + "-------------------------- \n"
                       + "\n"
                       + "From: " + res[0] + "\n"
                       + "Timestamp:" + res[2] + "\n"
                       + "Msg: " + res[1] + "\n"
                       + "```"
-            };
+
           });
+          return{
+            to: channelID,
+            message :  index
+          };
            break;
         case "new":
-          a2a.methods.getLastMessage(args[1]).call()
+          const latest = await a2a.methods.getLastMessage(args[1]).call()
             .then( res => {
-              return{
-              to: channelID,
-              message :  "``` Latest: \n"
+              return  "``` Latest: \n"
                         + "-------------------------- \n"
                         + "\n"
                         + "From: " + res[0] + "\n"
                         + "Timestamp:" + res[2] + "\n"
                         + "Msg: " + res[1] + "\n"
                         + "```"
-              };
             });
+            return{
+              to: channelID,
+              message :  fetch
+            };
           break;
         };
     };
