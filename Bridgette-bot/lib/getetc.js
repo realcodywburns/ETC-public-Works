@@ -14,7 +14,7 @@ module.exports = async (channelID, sender,  args) => {
 
 //*  get a payout *//
   web3.eth.personal.unlockAccount(auth.account, auth.passwd);
-  console.log(args);
+  //console.log(args);
   const newDrip = await faucetContract.methods.getETC(args).send({
     from: auth.account,
     gas: '90000',

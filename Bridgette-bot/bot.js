@@ -11,12 +11,15 @@ logger.add(logger.transports.Console, {
 });
 logger.level = 'debug';
 
+logger.debug('logger loaded');
 
 // Initialize Discord Bot
 var bot = new Discord.Client({
    token: auth.token,
    autorun: true
 });
+logger.debug('logger bot loaded');
+
 
 bot.on('ready', function (evt) {
     logger.info('Connected');
@@ -37,6 +40,7 @@ var sendSignedTransaction = require('./lib/sendSignedTransaction')
 var getGasPrice = require('./lib/getGasPrice');
 var getBlock = require('./lib/getBlock');
 var query = require('./lib/query');
+logger.debug('functions loaded');
 
 // dapps
 var statebot = require('./lib/statebot');
@@ -44,6 +48,7 @@ var multi = require('./lib/multi-sig');
 var donate = require('./lib/donate');
 var getetc = require('./lib/getetc');
 var etcmail = require('./lib/etcmail');
+logger.debug('dapps loaded');
 
 // help files
 var bridgette = require('./help/bridgette');
@@ -51,6 +56,8 @@ var donatehelp = require('./help/donatehelp');
 var etcmailhelp = require('./help/etcmailhelp');
 
 var error = require('./lib/error');
+logger.debug('help loaded');
+
 //* end functoin set*//
 
 bot.on('message', async function (user, userID, channelID, message, evt) {
@@ -256,13 +263,13 @@ bot.on('message', async function (user, userID, channelID, message, evt) {
                 }
                 break;
 
-            case 'etcmail' :
+            case 'mail' :
               if(payload != undefined){
-                bot.sendMessage({
-                  to: channelID,
-                  message :  'Ok, I will send a message to' + dLoad[0] +' please give me a few blocks.'
-                });
-                bot.sendMessage(await etcmail(channelID, user,dLoad))
+                await etcmail(channelID, user,dLoad)
+                .then( res => {
+                  console.log(to);
+                  //bot.sendMessage(res.to, res.message)
+              });
               } else {
                 bot.sendMessage(etcmailhelp(channelID));
               }
