@@ -38,8 +38,8 @@ module.exports = async (channelID, sender,  args) => {
                       + messageBody.text + "\n"
                       + messageBody.bridgette;
         web3.eth.personal.unlockAccount(auth.account, auth.passwd);
-        var gas = await a2a.methods.sendMessage(_to.addr, rawMsg).estimateGas({from: auth.account});
-        const msg = await a2a.methods.sendMessage(_to.addr, rawMsg).send({
+        var gas = await a2a.methods.sendMessage(args[_to.addr], rawMsg).estimateGas({from: auth.account});
+        const msg = await a2a.methods.sendMessage(args[_to.addr], rawMsg).send({
           from: auth.account,
           gas: Math.round(gas * 1.5),
           gasPrice: '20000000000'
