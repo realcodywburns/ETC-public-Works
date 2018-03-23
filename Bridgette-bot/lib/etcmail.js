@@ -15,19 +15,26 @@ module.exports = async (channelID, sender,  args) => {
   var messageBody = {
         "from" : "",
         "text" : "",
-    "bridgette": " | This message was delivered by Bridgette. Please do not reply to her address | "
+    "bridgette": "| This message was delivered by Bridgette. Please do not reply to her address | "
   }
-
+  for(i = 0; i < args.length; i++){
+  console.log(i+ " " +args[i] + "\n");
+    }
   switch(args[0]){
       case "send" :
-        messageBody.from = args[1];
-        messageBody.text = args[2];
-
-        var rawMsg = messageBody.from + messageBody.text + messageBody.bridgette;
+        messageBody.from = sender;
+        for(i = 2; i < args.length; i++){
+        messageBody.text = messageBody.text + args[i] + " ";
+          }
+        console.log(messageBody.text);
+        var rawMsg = "From: "+ messageBody.from + " \n "
+                      + messageBody.text + "\n "
+                      + messageBody.bridgette;
         web3.eth.personal.unlockAccount(auth.account, auth.passwd);
-        const msg = await a2a.methods.sendMessage(args[3], rawMsg).send({
+        var gas = await a2a.methods.sendMessage(args[1], rawMsg).estimateGas({from: auth.account});
+        const msg = await a2a.methods.sendMessage(args[1], rawMsg).send({
           from: auth.account,
-          gas: '90000',
+          gas: Math.round(gas * 1.5),
           gasPrice: '20000000000'
         })
         .then( res => {
@@ -62,9 +69,9 @@ module.exports = async (channelID, sender,  args) => {
             return  "``` message: "+ args[1] + "\n"
                       + "-------------------------- \n"
                       + "\n"
-                      + "From: " + res[0] + "\n"
+                      + "Sender: " + res[0] + "\n"
                       + "Timestamp:" + res[2] + "\n"
-                      + "Msg: " + res[1] + "\n"
+                      + res[1] + "\n"
                       + "```"
 
           });
@@ -79,15 +86,19 @@ module.exports = async (channelID, sender,  args) => {
               return  "``` Latest: \n"
                         + "-------------------------- \n"
                         + "\n"
-                        + "From: " + res[0] + "\n"
+                        + "Sender: " + res[0] + "\n"
                         + "Timestamp:" + res[2] + "\n"
-                        + "Msg: " + res[1] + "\n"
+                        + res[1] + "\n"
                         + "```"
             });
             return{
               to: channelID,
-              message :  fetch
+              message :  latest
             };
           break;
         };
+      return  {
+          to: channelID,
+          message : "Something went wrong"
+        }
     };

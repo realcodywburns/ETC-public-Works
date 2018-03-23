@@ -265,7 +265,11 @@ bot.on('message', async function (user, userID, channelID, message, evt) {
 
             case 'mail' :
               if(payload != undefined){
-                bot.sendMessage(await etcmail(channelID, user,dLoad)
+                bot.sendMessage({
+                  to: channelID,
+                  message :  "`Connecting to the mail server...`"
+                });
+                bot.sendMessage(await etcmail(channelID, user, args)
               .catch((err) => {console.log(err)}));
               } else {
                 bot.sendMessage(etcmailhelp(channelID));
