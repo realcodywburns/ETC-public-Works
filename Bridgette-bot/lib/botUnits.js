@@ -4,7 +4,7 @@ var botUnits = function() {}
 
 botUnits.formatDate = function(timestamp) {
   var date = new Date(timestamp * 1000 );
-  console.log("timestamp:" +timestamp + "\ndate"+date);
+  //console.log("timestamp:" +timestamp + "\ndate"+date);
   var monthNames = [
     "January [一月]", "February [二月]", "March [三月]",
     "April [四月]", "May [五月]", "June [六月]", "July [七月]",

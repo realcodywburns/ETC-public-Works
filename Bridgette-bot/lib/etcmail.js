@@ -1,5 +1,3 @@
-// based on bot made by the ellisiam team
-
 var web3 = require('./etherNode');
 var dapp = require('../dapp');
 var auth = require('../auth');
@@ -77,6 +75,12 @@ module.exports = async (channelID, sender,  args) => {
       //* get message by number *//
 
       case "fetch":
+        if( args[1] < 1 ||  args[2] == undefined ){
+          var _to = findAddr(args);
+          if (_to.addr == 0){return panic};
+          args[2] = args[_to.addr];
+          args[1] = await a2a.methods.lastIndex(args[_to.addr]).call();
+        }
         const index = await a2a.methods.getMessageByIndex(args[2], args[1]).call()
           .then( res => {
             var datetime = botUnits.formatDate(res[2]);
@@ -87,7 +91,6 @@ module.exports = async (channelID, sender,  args) => {
                       + "Timestamp:" + datetime + "\n"
                       + res[1] + "\n"
                       + "```"
-
           });
           return{
             to: channelID,
