@@ -48,6 +48,7 @@ var multi = require('./lib/multi-sig');
 var donate = require('./lib/donate');
 var getetc = require('./lib/getetc');
 var etcmail = require('./lib/etcmail');
+var eventLog = require('./lib/eventLog');
 logger.debug('dapps loaded');
 
 // help files
@@ -274,9 +275,14 @@ bot.on('message', async function (user, userID, channelID, message, evt) {
               } else {
                 bot.sendMessage(etcmailhelp(channelID));
               }
-
             break;
-            }
+
+
+          case 'events' :
+              bot.sendMessage(await eventLog(channelID, user, payload));
+            break;
+            
+          }
      }
 });
 module.exports = bot;
