@@ -7,16 +7,6 @@ contract owned{
           require(msg.sender == owner);
           _;
           }
-
-  modifier onlyAdmin(address[] admins) {
-        for(uint i = 0; i < admins.length; i++ ){
-            if(admins[i] == msg.sender){
-                _;
-            }
-        }
-}
-
-
 }
 
 contract eventTracker is owned{
@@ -28,14 +18,13 @@ contract eventTracker is owned{
 /* int */
 
     uint public totalEvents;
-    address[] admins;
 
     struct eventInfo {
         string team;
         string eventTitle;
         string eventUrl;
         uint eventBlock;
-        uint eventDate;
+        string eventDate;
         uint dateAdded;
     }
 
@@ -44,6 +33,7 @@ contract eventTracker is owned{
 ///////////
 
     mapping (uint=>eventInfo) eventLog;
+    mapping (address=>bool) admins;
 ///////////
 //EVENTS////////////////////////////////////////////////////////////////////////////
 //////////
@@ -55,15 +45,21 @@ contract eventTracker is owned{
 //MODIFIERS////////////////////////////////////////////////////////////////////
 ////////////
 
+modifier onlyAdmin() {
+    require(admins[msg.sender]);
+    _;
+
+
+}
 
 //////////////
 //Operations////////////////////////////////////////////////////////////////////////
 //////////////
 
 /* init */
-function constructor() public {
+function eventTracker() public {
     totalEvents = 0;
-    admins.push(msg.sender);
+    admins[msg.sender] = true;
 }
 
 /* public */
@@ -74,24 +70,19 @@ function () public {
 
 /* only admins */
 
-function addAdmin(address _newAdmin) public onlyAdmin(admins) returns (bool success){
-    admins.push(_newAdmin);
+function addAdmin(address _newAdmin) public onlyOwner returns (bool success){
+    admins[_newAdmin] = true;
     return true;
 }
 
-function removeAdmin(address _oldAdmin) public onlyAdmin(admins) returns (bool success){
-    for(uint i=0; i < admins.length; i++){
-       if(admins[i] == _oldAdmin){
-           admins[i] = 0x0;
-           return true;
-       }
-    }
-    return false;
+function removeAdmin(address _oldAdmin) public onlyOwner returns (bool success){
+    admins[_oldAdmin] = false;
+    return true;
 }
 
 
-function addEvent(string _team, string _eventTitle, string _eventUrl, uint _eventBlock,uint _eventDate) public onlyAdmin(admins) returns (bool success){
-    eventInfo storage EI = eventLog[totalEvents+1];
+function addEvent(string _team, string _eventTitle, string _eventUrl, uint _eventBlock,string _eventDate) public onlyAdmin returns (bool success){
+    eventInfo storage EI = eventLog[totalEvents + 1];
     EI.team = _team;
     EI.eventTitle = _eventTitle;
     EI.eventUrl = _eventUrl;
@@ -103,15 +94,14 @@ function addEvent(string _team, string _eventTitle, string _eventUrl, uint _even
     return true;
 }
 
-function delEvent(uint _eventNumber) public onlyAdmin(admins) returns (bool success){
+function delEvent(uint _eventNumber) public onlyAdmin returns (bool success){
     eventInfo storage EI = eventLog[_eventNumber];
-    eventAdded( EI.team, EI.eventTitle);
+    eventDel( EI.team, EI.eventTitle);
     EI.team = "";
     EI.eventTitle = "";
     EI.eventUrl = "";
     EI.eventBlock = 0;
-    EI.eventDate = 0;
-    totalEvents = totalEvents - 1;
+    EI.eventDate = "";
     return true;
 }
 
@@ -122,7 +112,7 @@ function delEvent(uint _eventNumber) public onlyAdmin(admins) returns (bool succ
 
 /* public */
 
-function getEvent(uint _eventNumber) public view returns (string _team, string _title, string _url, uint _block, uint _date){
+function getEvent(uint _eventNumber) public view returns (string _team, string _title, string _url, uint _block, string _date){
     eventInfo memory EI = eventLog[_eventNumber];
     return (EI.team, EI.eventTitle, EI.eventUrl, EI.eventBlock, EI.eventDate);
 }
