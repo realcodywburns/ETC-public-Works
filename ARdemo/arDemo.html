@@ -1,0 +1,48 @@
+<script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+<script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
+<script type="text/javascript" src="https://rawgit.com/ethereum/web3.js/develop/dist/web3.min.js"></script>
+
+<body style='margin : 0px; overflow: hidden;'>
+  <a-scene embedded arjs='sourceType: webcam; detectionMode: mono_and_matrix; matrixCodeType: 3x3;'>
+
+ <!-- handle barcode marker -->
+
+    <a-marker id="tgt0" type='barcode' value='0'></a-marker>
+    <a-marker id="tgt1" type='barcode' value='1'></a-marker>
+    <a-marker id="tgt2" type='barcode' value='2'></a-marker>
+    <a-marker id="tgt3" type='barcode' value='3'></a-marker>
+    <a-marker id="tgt4" type='barcode' value='4'></a-marker>
+    <a-marker id="tgt5" type='barcode' value='5'></a-marker>
+
+    <a-entity camera></a-entity>
+    </a-scene>
+  </body>
+
+
+  <script>
+  console.log(" o Establishing WEB3")
+  var uri = 'https://etc-geth.0xinfra.com/';
+  var web3 = new Web3(new Web3.providers.HttpProvider(uri));
+  console.log(web3);
+
+  console.log(" o Setting up contract")
+  var contractAddress = "0x9868a675D36E2554F559771539F00Ed188A33e69";
+  var abiArray =[{"constant":false,"inputs":[{"name":"_seat","type":"uint8"},{"name":"_comment","type":"string"}],"name":"clearSeat","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"_arID","type":"uint8"},{"name":"_ipfs","type":"string"},{"name":"_forSale","type":"bool"},{"name":"_price","type":"uint256"},{"name":"_rating","type":"uint8"}],"name":"updateLogo","outputs":[{"name":"success","type":"bool"}],"payable":true,"stateMutability":"payable","type":"function"},{"constant":true,"inputs":[{"name":"_scan","type":"uint8"}],"name":"getLogo","outputs":[{"name":"ipfs","type":"string"},{"name":"rating","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"uint8"}],"name":"targets","outputs":[{"name":"logo","type":"string"},{"name":"owned","type":"bool"},{"name":"owner","type":"address"},{"name":"forSale","type":"bool"},{"name":"price","type":"uint256"},{"name":"rating","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"","type":"address"}],"name":"contentPolice","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":false,"name":"action","type":"string"},{"indexed":false,"name":"officer","type":"address"},{"indexed":false,"name":"comment","type":"string"}],"name":"squeal","type":"event"}];
+  var arContract = web3.eth.contract(abiArray).at(contractAddress);
+window.onload = function() {
+  console.log(arContract);
+  console.log(" o Assigning assets")
+
+}
+
+for( i = 0; i < 6; i++){
+  console.log(" response from contract"+arContract.getLogo(i)[0]);
+    if(arContract.getLogo(i)[0] != ""){
+    document.getElementById("tgt"+i).innerHTML = "<a-box src = \"https://gateway.ipfs.io/ipfs/"+ arContract.getLogo(i)[0] + "\"></a-box>";
+  } else {
+    document.getElementById("tgt"+i).innerHTML = "<a-box src = \"https://gateway.ipfs.io/ipfs/QmVGMspGVeNB4tyVPGToUXnGoaqg3iKgYts1DMq24pujfV\"></a-box> ";
+
+  }
+}
+
+</script>
