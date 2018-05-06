@@ -1,0 +1,169 @@
+[
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_seat",
+        "type": "uint8"
+      },
+      {
+        "name": "_comment",
+        "type": "string"
+      }
+    ],
+    "name": "clearSeat",
+    "outputs": [
+      {
+        "name": "success",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_arID",
+        "type": "uint8"
+      },
+      {
+        "name": "_ipfs",
+        "type": "string"
+      },
+      {
+        "name": "_forSale",
+        "type": "bool"
+      },
+      {
+        "name": "_price",
+        "type": "uint256"
+      },
+      {
+        "name": "_rating",
+        "type": "uint8"
+      }
+    ],
+    "name": "updateLogo",
+    "outputs": [
+      {
+        "name": "success",
+        "type": "bool"
+      }
+    ],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "_scan",
+        "type": "uint8"
+      }
+    ],
+    "name": "getLogo",
+    "outputs": [
+      {
+        "name": "ipfs",
+        "type": "string"
+      },
+      {
+        "name": "rating",
+        "type": "uint8"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "name": "targets",
+    "outputs": [
+      {
+        "name": "logo",
+        "type": "string"
+      },
+      {
+        "name": "owned",
+        "type": "bool"
+      },
+      {
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "name": "forSale",
+        "type": "bool"
+      },
+      {
+        "name": "price",
+        "type": "uint256"
+      },
+      {
+        "name": "rating",
+        "type": "uint8"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "contentPolice",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "name": "action",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "name": "officer",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "name": "comment",
+        "type": "string"
+      }
+    ],
+    "name": "squeal",
+    "type": "event"
+  }
+]
