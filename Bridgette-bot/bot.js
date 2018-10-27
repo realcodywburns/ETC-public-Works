@@ -277,12 +277,24 @@ bot.on('message', async function (user, userID, channelID, message, evt) {
               }
             break;
 
-
+          case '!tipper' :
+          if(payload != undefined){
+            bot.sendMessage({
+              to: channelID,
+              message :  "<beep boop> Attempting to transfer b - tokens"
+            });
+            bot.sendMessage(await tipper(channelID, user, args)
+          .catch((err) => {console.log(err)}));
+          } else {
+            bot.sendMessage(tipperError(channelID));
+          }
+        break;
           case 'events' :
               bot.sendMessage(await eventLog(channelID, user, payload));
             break;
-            
+
           }
      }
 });
+
 module.exports = bot;
