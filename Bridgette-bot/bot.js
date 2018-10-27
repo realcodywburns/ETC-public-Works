@@ -49,21 +49,33 @@ var donate = require('./lib/donate');
 var getetc = require('./lib/getetc');
 var etcmail = require('./lib/etcmail');
 var eventLog = require('./lib/eventLog');
+var tipper = require('./lib/tipper');
 logger.debug('dapps loaded');
 
 // help files
 var bridgette = require('./help/bridgette');
 var donatehelp = require('./help/donatehelp');
 var etcmailhelp = require('./help/etcmailhelp');
+var tipperError = require('./help/tipperError');
+
 
 var error = require('./lib/error');
 logger.debug('help loaded');
 
 //* end functoin set*//
 
+function addReaction(channelID, evt,emoji){
+   bot.addReaction({
+    channelID : channelID,
+    messageID : evt.d.id,
+    reaction : emoji
+  })
+}
+
 bot.on('message', async function (user, userID, channelID, message, evt) {
     // Our bot needs to know if it will execute a command
     // It will listen for messages that will start with `!`
+
     if (message.substring(0, 1) == '!') {
         var args = message.substring(1).split(' ');
         var cmd = args[0].toLowerCase();
@@ -150,6 +162,7 @@ bot.on('message', async function (user, userID, channelID, message, evt) {
 
             // getBlock
             case 'getblock':
+             addReaction(channelID, evt, "🤖");
              if(payload != undefined){
               var funcs = args[2];
               web3.eth.getBlock(payload)
@@ -164,6 +177,7 @@ bot.on('message', async function (user, userID, channelID, message, evt) {
                   message: "Get transaction requires a txId (i.e. !getTransaction <txId>)"
               });
             }
+
             break;
 
             case 'query':
@@ -266,29 +280,25 @@ bot.on('message', async function (user, userID, channelID, message, evt) {
 
             case 'mail' :
               if(payload != undefined){
-                bot.sendMessage({
-                  to: channelID,
-                  message :  "`Connecting to the mail server...`"
-                });
+                addReaction(channelID, evt, "🤖");
                 bot.sendMessage(await etcmail(channelID, user, args)
-              .catch((err) => {console.log(err)}));
+              .catch((err) => {
+                addReaction(channelID, evt, "⛔");
+                console.error(err)}));
               } else {
                 bot.sendMessage(etcmailhelp(channelID));
               }
             break;
 
-          case '!tipper' :
+          case 'tipper' :
           if(payload != undefined){
-            bot.sendMessage({
-              to: channelID,
-              message :  "<beep boop> Attempting to transfer b - tokens"
-            });
-            bot.sendMessage(await tipper(channelID, user, args)
-          .catch((err) => {console.log(err)}));
+          await tipper(channelID, user, userID, args, evt)
           } else {
+            addReaction(channelID, evt, "⚠️");
             bot.sendMessage(tipperError(channelID));
           }
-        break;
+         break;
+
           case 'events' :
               bot.sendMessage(await eventLog(channelID, user, payload));
             break;
@@ -297,4 +307,4 @@ bot.on('message', async function (user, userID, channelID, message, evt) {
      }
 });
 
-module.exports = bot;
+module.exports.bot = bot;
