@@ -11,6 +11,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "discord.io": "github:woor/discord.io#gateway_v6",
+    "joi": "^14.0.1",
     "web3": "^1.0.0-beta.30",
     "winston": "^2.4.0"
   }
