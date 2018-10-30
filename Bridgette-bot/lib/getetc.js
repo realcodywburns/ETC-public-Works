@@ -13,10 +13,10 @@ const faucetContract = new web3.eth.Contract(ABI, faucetAddr);
 module.exports = async (channelID, sender,  args) => {
 
 //*  get a payout *//
-  web3.eth.personal.unlockAccount(auth.account, auth.passwd);
+  web3.eth.personal.unlockAccount(process.env.BRIDGETTE_ADDRESS, process.env.BRIDGETTE_PW);
   //console.log(args);
   const newDrip = await faucetContract.methods.getETC(args).send({
-    from: auth.account,
+    from: process.env.BRIDGETTE_ADDRESS,
     gas: '90000',
     gasPrice: '20000000000'
   })
