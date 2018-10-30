@@ -42,11 +42,11 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
       case "send" :
         //add reaction to be polite
         addReactions(channelID, evt, '\u{1F916}');
-        const result = Joi.validate({ username: args[2], amount: args[1] }, schema)
+        const result = await Joi.validate({ username: args[2], amount: args[1] }, schema)
         .catch(async function(err){
           await addReactions(channelID, evt, "\u{1F6D1}");
           console.log(err);
-          return true;
+          return false;
         });
 
         //convert to contract addreses
