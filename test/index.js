@@ -4,11 +4,12 @@ require('dotenv').config();
 
 var error = require('../Bridgette-bot/test/error');
 var donate = require('../Bridgette-bot/test/donate');
-
+var tipper = require('../Bridgette-bot/test/tipper');
 //* end unit tests *//
 
 /* tests */
 describe('Global functions', function() {
   error,
-  donate
+  donate,
+  tipper
 });
