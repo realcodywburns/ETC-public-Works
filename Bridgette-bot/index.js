@@ -1,30 +1,15 @@
-var Discord = require('discord.io');
-var logger = require('winston');
-var auth = require('./auth.json');
-var web3 = require('./lib/etherNode');
+const bot = require('./common/discord.js');
+const log = require('./common/logger');
+var web3 = require('./common/etherNode');
 
 
-// Configure logger settings
-logger.remove(logger.transports.Console);
-logger.add(logger.transports.Console, {
-    colorize: true
-});
-logger.level = 'debug';
-
-logger.debug('logger loaded');
 
 // Initialize Discord Bot
-var bot = new Discord.Client({
-   token: auth.token,
-   autorun: true
-});
-logger.debug('logger bot loaded');
-
 
 bot.on('ready', function (evt) {
-    logger.info('Connected');
-    logger.info('Logged in as: ');
-    logger.info(bot.username + ' - (' + bot.id + ')');
+    log.info('[Bridgett-bot/index.js] Connected');
+    log.info('[Bridgett-bot/index.js] Logged in as: ');
+    log.info('[Bridgett-bot/index.js]' + bot.username + ' - (' + bot.id + ')');
 });
 
 function isNumber(n) {
@@ -40,7 +25,7 @@ var sendSignedTransaction = require('./lib/sendSignedTransaction')
 var getGasPrice = require('./lib/getGasPrice');
 var getBlock = require('./lib/getBlock');
 var query = require('./lib/query');
-logger.debug('functions loaded');
+log.info('[Bridgett-bot/index.js] functions loaded');
 
 // dapps
 var statebot = require('./lib/statebot');
@@ -50,7 +35,7 @@ var getetc = require('./lib/getetc');
 var etcmail = require('./lib/etcmail');
 var eventLog = require('./lib/eventLog');
 var tipper = require('./lib/tipper');
-logger.debug('dapps loaded');
+log.info('[Bridgett-bot/index.js] dapps loaded');
 
 // help files
 var bridgette = require('./help/bridgette');
@@ -60,7 +45,7 @@ var tipperError = require('./help/tipperError');
 
 
 var error = require('./lib/error');
-logger.debug('help loaded');
+log.info('[Bridgett-bot/index.js] help/error loaded');
 
 //* end functoin set*//
 
