@@ -1,14 +1,14 @@
 var assert = require('assert');
-
+require('dotenv').config();
 //* unit tests *//
 
 var error = require('../Bridgette-bot/test/error');
-var error = require('../Bridgette-bot/test/donate');
+var donate = require('../Bridgette-bot/test/donate');
 
 //* end unit tests *//
 
 /* tests */
 describe('Global functions', function() {
   error,
-  donated
+  donate
 });
