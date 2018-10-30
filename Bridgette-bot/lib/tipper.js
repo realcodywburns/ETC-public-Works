@@ -8,7 +8,7 @@ const crypto = require('crypto');
 
 //joi validation schema
 const schema = Joi.object().keys({
-  username: Joi.string().min(3).max(30).required(),
+  username: Joi.string().regex(/^<@([0-9_\-\.]+)>$/).required(),
   amount : Joi.number().integer().min(0).max(86753090).precision(0).required()
 }).with('username', 'amount');
 
@@ -42,16 +42,17 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
       case "send" :
         //add reaction to be polite
         addReactions(channelID, evt, '\u{1F916}');
+        const result = Joi.validate({ username: args[2], amount: args[1] }, schema)
+        .catch(async function(err){
+          await addReactions(channelID, evt, "\u{1F6D1}");
+          console.log(err);
+          return true;
+        });
 
         //convert to contract addreses
         var _to = "0x" + hashStuff(args[2]);
         var _from = "0x" + hashStuff('<@'+senderID+'>');
 
-        const result = Joi.validate({ username: args[2], amount: args[1] }, schema)
-        .catch(function(err){
-          addReactions(channelID, evt, "\u{1F6D1}");
-          console.log(err);
-        });
 
 
        //unlock the account and send the transaction
@@ -60,7 +61,7 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
         var gas = await tipper.methods.transfer(_from, _to, args[1]).estimateGas({from: auth.account});
 
         //console.log(gas);
-
+        addReactions(channelID, evt, "\u{23f3}");
         const msg = await tipper.methods.transfer(_from, _to, args[1]).send({
           from: auth.account,
           gas: Math.round(gas * 1.5),

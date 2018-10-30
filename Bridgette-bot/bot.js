@@ -33,7 +33,7 @@ function isNumber(n) {
 
 //* Get functions from library *//
 
-var getBlockNumber = require('./lib/getBlockNumber');
+var getBlockNumber = require('./lib/getblocknumber');
 var getBalance = require('./lib/getBalance');
 var getTransaction = require('./lib/getTransactions');
 var sendSignedTransaction = require('./lib/sendSignedTransaction')
@@ -162,7 +162,7 @@ bot.on('message', async function (user, userID, channelID, message, evt) {
 
             // getBlock
             case 'getblock':
-             addReaction(channelID, evt, "🤖");
+             addReaction(channelID, evt, "\u{1F916}");
              if(payload != undefined){
               var funcs = args[2];
               web3.eth.getBlock(payload)
@@ -280,7 +280,7 @@ bot.on('message', async function (user, userID, channelID, message, evt) {
 
             case 'mail' :
               if(payload != undefined){
-                addReaction(channelID, evt, "🤖");
+                addReaction(channelID, evt, "\u{1F916}");
                 bot.sendMessage(await etcmail(channelID, user, args)
               .catch((err) => {
                 addReaction(channelID, evt, "⛔");
