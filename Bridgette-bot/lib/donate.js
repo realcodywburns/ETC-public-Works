@@ -17,7 +17,7 @@ const splitContract = new web3.eth.Contract(ABI);
 
 // !donate <team> <percent(whole number)> <your address>
 module.exports = async (channelID, sender,  args) => {
-  var botMessage = "";
+var botMessage = "";
 if (args.length == 3) {
     donate = args[0];
     percent = parseInt(args[1]);
