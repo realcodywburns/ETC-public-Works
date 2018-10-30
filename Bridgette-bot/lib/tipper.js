@@ -56,14 +56,14 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
 
 
        //unlock the account and send the transaction
-        //await web3.eth.personal.unlockAccount(auth.account, auth.passwd);
+        await web3.eth.personal.unlockAccount(process.env.BRIDGETTE_ADDRESS, process.env.BRIDGETTE_PW);
         //console.log('acct unlocked');
-        var gas = await tipper.methods.transfer(_from, _to, args[1]).estimateGas({from: auth.account});
+        var gas = await tipper.methods.transfer(_from, _to, args[1]).estimateGas({from: process.env.BRIDGETTE_ADDRESS});
 
         //console.log(gas);
         addReactions(channelID, evt, "\u{23f3}");
         const msg = await tipper.methods.transfer(_from, _to, args[1]).send({
-          from: auth.account,
+          from: process.env.BRIDGETTE_ADDRESS,
           gas: Math.round(gas * 1.5),
           gasPrice: '50000000000'
         })
