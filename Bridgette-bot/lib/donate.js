@@ -1,6 +1,12 @@
 // based on bot made by the ellisiam team
+var web3 = require('../common/etherNode');
+var botUnits = require('../common/botUnits');
+const bot = require('../common/discord');
+const log = require('../common/logger');
 
-var web3 = require('./etherNode');
+log.debug('[Bridgette-bot/lib/donate] donate loaded');
+
+
 var splitter = require('../../contracts/build/contracts/Split.json');
 var auth = require('../auth.json')
 
@@ -68,13 +74,13 @@ if (args.length == 3) {
 
   //await message.reply(` We're creating the contract for you. Please wait...`);
 
-   web3.eth.personal.unlockAccount(auth.account, auth.passwd);
+   web3.eth.personal.unlockAccount(process.env.BRIDGETTE_ADDRESS, process.env.BRIDGETTE_PW);
   const newContractInstance = await splitContract.deploy({
       data: BYTECODE,
       arguments: [owner, donateAddr, percent],
     })
     .send({
-      from: auth.account,
+      from: process.env.BRIDGETTE_ADDRESS,
       gas: '306106',
       gasPrice: '20000000000'
   })

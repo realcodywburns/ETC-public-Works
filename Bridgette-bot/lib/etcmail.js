@@ -1,7 +1,11 @@
-var web3 = require('./etherNode');
+var web3 = require('../common/etherNode');
+var botUnits = require('../common/botUnits');
+const bot = require('../common/discord');
+const log = require('../common/logger');
+
+log.debug('[Bridgette-bot/lib/etcmail] etcmail loaded');
+
 var dapp = require('../dapp');
-var auth = require('../auth');
-var botUnits = require('./botUnits')
 
 const ABI = dapp.a2a.abi;
 const ADDR = dapp.a2a.address;
@@ -34,10 +38,10 @@ module.exports = async (channelID, sender,  args) => {
         var rawMsg = "From: "+ messageBody.from + "\n"
                       + messageBody.text + "\n"
                       + messageBody.bridgette;
-        web3.eth.personal.unlockAccount(auth.account, auth.passwd);
-        var gas = await a2a.methods.sendMessage(args[_to.addr], rawMsg).estimateGas({from: auth.account});
+        web3.eth.personal.unlockAccount(process.env.BRIDGETTE_ADDRESS, process.env.BRIDGETTE_PW);
+        var gas = await a2a.methods.sendMessage(args[_to.addr], rawMsg).estimateGas({from: process.env.BRIDGETTE_ADDRESS});
         const msg = await a2a.methods.sendMessage(args[_to.addr], rawMsg).send({
-          from: auth.account,
+          from: process.env.BRIDGETTE_ADDRESS,
           gas: Math.round(gas * 1.5),
           gasPrice: '20000000000'
         })

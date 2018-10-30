@@ -1,6 +1,11 @@
 // based on bot made by the ellisiam team
+var web3 = require('../common/etherNode');
+var botUnits = require('../common/botUnits');
+const bot = require('../common/discord');
+const log = require('../common/logger');
 
-var web3 = require('./etherNode');
+log.debug('[Bridgette-bot/lib/statebot] statebot loaded');
+
 var faucet = require('../../contracts/build/contracts/faucet.json');
 var auth = require('../auth.json')
 

@@ -1,4 +1,10 @@
-var web3 = require('./etherNode');
+var web3 = require('../common/etherNode');
+var botUnits = require('../common/botUnits');
+const bot = require('../common/discord');
+const log = require('../common/logger');
+
+log.debug('[Bridgette-bot/lib/statebot] statebot loaded');
+
 var dapp = require('../dapp');
 
 var abiArray = dapp.statebot.abi;
