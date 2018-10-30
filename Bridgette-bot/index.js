@@ -23,7 +23,6 @@ var getTransaction = require('./lib/getTransactions');
 var sendSignedTransaction = require('./lib/sendSignedTransaction')
 var getGasPrice = require('./lib/getGasPrice');
 var getBlock = require('./lib/getBlock');
-var query = require('./lib/query');
 log.info('[Bridgett-bot/index.js] functions loaded');
 
 // dapps
