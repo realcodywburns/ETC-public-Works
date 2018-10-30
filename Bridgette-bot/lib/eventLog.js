@@ -1,7 +1,9 @@
-var web3 = require('./etherNode');
+var web3 = require('../common/etherNode');
+var botUnits = require('../common/botUnits');
+const bot = require('../common/discord');
+const log = require('../common/logger');
+
 var dapp = require('../dapp');
-var auth = require('../auth');
-var botUnits = require('./botUnits')
 
 const ABI = dapp.eventLog.abi;
 const ADDR = dapp.eventLog.address;
