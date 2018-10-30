@@ -15,7 +15,7 @@ const ABI = splitter.abi;
 
 const splitContract = new web3.eth.Contract(ABI);
 
-
+// !donate <team> <percent(whole number)> <your address>
 module.exports = async (channelID, sender,  args) => {
   var botMessage = "";
 if (args.length == 3) {
@@ -29,7 +29,7 @@ if (args.length == 3) {
   } else {
     return{
     to: channelID,
-    message :  ' Something went wrong'
+    message :  'Something went wrong'
     }
   }
 
