@@ -7,7 +7,6 @@ const log = require('../common/logger');
 log.debug('[Bridgette-bot/lib/statebot] statebot loaded');
 
 var faucet = require('../../contracts/build/contracts/faucet.json');
-var auth = require('../auth.json')
 
 const ABI = faucet.abi;
 const faucetAddr = "0x0189ac60C650e456A660FBAF0E250fDA63fD2905";

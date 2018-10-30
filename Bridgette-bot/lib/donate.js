@@ -8,7 +8,6 @@ log.debug('[Bridgette-bot/lib/donate] donate loaded');
 
 
 var splitter = require('../../contracts/build/contracts/Split.json');
-var auth = require('../auth.json')
 
 const BYTECODE = splitter.bytecode;
 const ABI = splitter.abi;
