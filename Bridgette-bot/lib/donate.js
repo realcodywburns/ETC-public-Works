@@ -1,7 +1,7 @@
 // based on bot made by the ellisiam team
 
 var web3 = require('./etherNode');
-var splitter = require('../../contracts/build/contracts/split.json');
+var splitter = require('../../contracts/build/contracts/Split.json');
 var auth = require('../auth.json')
 
 const BYTECODE = splitter.bytecode;

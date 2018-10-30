@@ -9,7 +9,6 @@ const ADDR = dapp.a2a.address;
 const a2a = new web3.eth.Contract(ABI, ADDR);
 
 
-
 module.exports = async (channelID, sender,  args) => {
 
   var messageBody = {
