@@ -45,7 +45,7 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
 
         var result = await Joi.validate({ username: args[2], amount: args[1] }, schema)
                .then(async (res) => {
-               console.log('all good');
+               addReactions(channelID, evt, "\u{23f3}");
                })
                .catch(async function(err){
                  return err.name;
@@ -74,11 +74,11 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
         var gas = await tipper.methods.transfer(_from, _to, args[1]).estimateGas({from: process.env.BRIDGETTE_ADDRESS})
         .catch( err => {
          addReactions(channelID, evt, "\u{1F6D1}");
-         log.error('[Bridgette-bot/lib/tipper] transfer error: '+ err);
+         log.error('[Bridgette-bot/lib/tipper] transfer estimate error: '+ err);
         });
 
         //console.log(gas);
-        addReactions(channelID, evt, "\u{23f3}");
+
         const msg = await tipper.methods.transfer(_from, _to, args[1]).send({
           from: process.env.BRIDGETTE_ADDRESS,
           gas: Math.round(gas * 1.5),
@@ -86,12 +86,12 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
         })
         .then(async function(receipt){
           await addReactions(channelID, evt, '\u{1F4B0}');
-          console.log(receipt);
+          log.debug('[Bridgette-bot/lib/tipper] transfer receipt: '+ receipt);
           }
          )
          .catch(function(err){
            addReactions(channelID, evt, "\u{1F6D1}");
-           console.log(err);
+           log.error('[Bridgette-bot/lib/tipper] transfer error ' + err);
          });
 
         return true;
@@ -100,7 +100,7 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
 
     //* !tipper balance *//
       case "balance":
-        addReactions(channelID, evt, "\u{1F916}");
+        //addReactions(channelID, evt, "\u{1F916}");
         if(args[1] == null){
          var account = "0x" + hashStuff("<@"+ senderID+">");
           } else {
@@ -113,6 +113,10 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
               bot.sendMessage({
                  to: channelID,
                 message :  sender + ", the balance is "+ res
+              })
+              .catch( err =>{
+                addReactions(channelID, evt, "\u{1F6D1}");
+                log.error('[Bridgette-bot/lib/tipper] balance error ' + err);
               });
             return true;
         });
