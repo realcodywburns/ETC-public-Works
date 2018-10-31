@@ -65,9 +65,17 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
 
 
        //unlock the account and send the transaction
-        await web3.eth.personal.unlockAccount(process.env.BRIDGETTE_ADDRESS, process.env.BRIDGETTE_PW);
+        await web3.eth.personal.unlockAccount(process.env.BRIDGETTE_ADDRESS, process.env.BRIDGETTE_PW)
+        .catch( err => {
+         addReactions(channelID, evt, "\u{1F6D1}");
+         log.error('[Bridgette-bot/lib/tipper] unlock account error: '+ err);
+        });
         //console.log('acct unlocked');
-        var gas = await tipper.methods.transfer(_from, _to, args[1]).estimateGas({from: process.env.BRIDGETTE_ADDRESS});
+        var gas = await tipper.methods.transfer(_from, _to, args[1]).estimateGas({from: process.env.BRIDGETTE_ADDRESS})
+        .catch( err => {
+         addReactions(channelID, evt, "\u{1F6D1}");
+         log.error('[Bridgette-bot/lib/tipper] transfer error: '+ err);
+        });
 
         //console.log(gas);
         addReactions(channelID, evt, "\u{23f3}");
