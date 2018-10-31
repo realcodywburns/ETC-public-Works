@@ -15,9 +15,6 @@ install:
   - npm i
 script:
   - npm run test
-deploy:
-  skip_cleanup: true
-  provider: script
-  script: .travis/deploy.sh
-  on:
-    all_branches: true
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t bcrd/etc-public-works:$TRAVIS_BRANCH .
+  - docker push -t bcrd/etc-public-works:$TRAVIS_BRANCH
