@@ -6,3 +6,5 @@ RUN npm install
 CMD ["npm","start"]
 
 EXPOSE 8546
+EXPOSE 80
+EXPOSE 443
