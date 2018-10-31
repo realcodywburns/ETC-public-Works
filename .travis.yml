@@ -1,7 +1,7 @@
 language: node_js
 sudo: required
 dist: trusty
-node_js: '7'
+node_js: '8'
 env:
   -CXX=g++-4.8
   -WEB3_URL=http://localhost:8546
