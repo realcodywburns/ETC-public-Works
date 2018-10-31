@@ -1,0 +1,24 @@
+version: '3.2'
+services:
+  bridgette:
+    image: bcrd/etc-public-works:staging
+    container_name: ETC-public-Works
+    tty: true
+    environment:
+     - WEB3_URL=http://<something>:8546
+     - LOG_LEVEL=debug
+     - DISCORD_TOKEN=<your_token_no_quotes>
+     - BRIDGETTE_ADDRESS=0x172E7cd98bbe151640A84058eE9223708860B45A
+     - BRIDGETTE_PW=<super_password_no_quotes>
+    ports:
+     - '8546:8546'
+     - '80:80'
+     - '443:443'
+  watchtower:
+    image: v2tec/watchtower:latest
+    container_name: watchtower
+    tty: true
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /root/.docker/config.json:/config.json
+    command: --interval 30

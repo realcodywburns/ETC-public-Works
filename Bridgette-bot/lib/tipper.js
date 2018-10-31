@@ -48,6 +48,7 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
                addReactions(channelID, evt, "\u{23f3}");
                })
                .catch(async function(err){
+                 addReactions(channelID, evt, "\u{1F6D1}");
                  return err.name;
                });
 
