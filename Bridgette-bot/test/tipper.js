@@ -24,11 +24,11 @@ describe('tipper module', function() {
       //check error statements
       it('returns false on bad username', async function() {
         var res = await tipper(sendCase.channelID, sendCase.sender, sendCase.senderID, [sendCase.args[0],sendCase.args[1],'bob'], sendCase.evt );
-        assert.equal(res, false, ' returns false');
+        assert.equal(res, 'ValidationError', ' returns error');
       });
       it('returns false on bad amount', async function() {
         var res = await tipper(sendCase.channelID, sendCase.sender, sendCase.senderID, [sendCase.args[0],'-100',sendCase.args[2]], sendCase.evt );
-        assert.equal(res, false, ' returns false');
+        assert.equal(res, 'ValidationError', ' returns error');
       });
       //try to catch error from web3
   });
