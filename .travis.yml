@@ -2,10 +2,21 @@ language: node_js
 sudo: required
 dist: trusty
 node_js: '7'
-env: CXX=g++-4.8
+env:
+  -CXX=g++-4.8
+  -WEB3_URL=http://localhost:8546
+  -LOG_LEVEL=info
 services:
 before_install:
   - docker pull trufflesuite/ganache-cli
-  - docker run -d -p 8545:8545 -p 3000:3000 -p 27017:27017 trufflesuite/ganache-cli
+  - docker run -d -p 8546:8546 -p 3000:3000 -p 27017:27017 trufflesuite/ganache-cli
+install:
+  - npm i
 script:
-- npm run test
+  - npm run test
+deploy:
+  skip_cleanup: true
+  provider: script
+  script: .travis/deploy.sh
+  on:
+    master: true
