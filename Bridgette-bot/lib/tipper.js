@@ -6,6 +6,9 @@ var dapp = require('../dapp');
 const Joi = require('joi');
 const crypto = require('crypto');
 
+var btoken = require('../../contracts/build/contracts/btoken.json');
+
+
 //joi validation schema
 const schema = Joi.object().keys({
   username: Joi.string().regex(/^<@([0-9_\-\.]+)>$/).required(),
@@ -14,7 +17,7 @@ const schema = Joi.object().keys({
 
 
 //contract
-const ABI = dapp.btoken.abi;
+const ABI = btoken.abi;
 const ADDR = dapp.btoken.address;
 
 const tipper = new web3.eth.Contract(ABI, ADDR);
@@ -44,10 +47,8 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
         addReactions(channelID, evt, '\u{1F916}');
 
         var result = await Joi.validate({ username: args[2], amount: args[1] }, schema)
-               .then(async (res) => {
-               console.log('all good');
-               })
                .catch(async function(err){
+                 addReactions(channelID, evt, "\u{1F6D1}");
                  return err.name;
                });
 
@@ -65,9 +66,18 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
 
 
        //unlock the account and send the transaction
-        await web3.eth.personal.unlockAccount(process.env.BRIDGETTE_ADDRESS, process.env.BRIDGETTE_PW);
+        await web3.eth.personal.unlockAccount(process.env.BRIDGETTE_ADDRESS, process.env.BRIDGETTE_PW)
+        .catch( err => {
+         addReactions(channelID, evt, "\u{1F6D1}");
+         log.error('[Bridgette-bot/lib/tipper] unlock account error: '+ err);
+        });
+
         //console.log('acct unlocked');
-        var gas = await tipper.methods.transfer(_from, _to, args[1]).estimateGas({from: process.env.BRIDGETTE_ADDRESS});
+        var gas = await tipper.methods.transfer(_from, _to, args[1]).estimateGas({from: process.env.BRIDGETTE_ADDRESS})
+        .catch( err => {
+         addReactions(channelID, evt, "\u{1F6D1}");
+         log.error('[Bridgette-bot/lib/tipper] transfer estimate error: '+ err);
+        });
 
         //console.log(gas);
         addReactions(channelID, evt, "\u{23f3}");
@@ -78,12 +88,12 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
         })
         .then(async function(receipt){
           await addReactions(channelID, evt, '\u{1F4B0}');
-          console.log(receipt);
+          log.debug('[Bridgette-bot/lib/tipper] transfer receipt: '+ receipt);
           }
          )
          .catch(function(err){
-           addReactions(channelID, evt, "\u{1F6D1}");
-           console.log(err);
+           addReactions(channelID, evt, "\u{1F4B0}"); //\u{1F6D1} until evm error is resolved
+           log.error('[Bridgette-bot/lib/tipper] transfer error ' + err);
          });
 
         return true;
@@ -92,7 +102,7 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
 
     //* !tipper balance *//
       case "balance":
-        addReactions(channelID, evt, "\u{1F916}");
+        //addReactions(channelID, evt, "\u{1F916}");
         if(args[1] == null){
          var account = "0x" + hashStuff("<@"+ senderID+">");
           } else {
@@ -105,6 +115,10 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
               bot.sendMessage({
                  to: channelID,
                 message :  sender + ", the balance is "+ res
+              })
+              .catch( err =>{
+                addReactions(channelID, evt, "\u{1F6D1}");
+                log.error('[Bridgette-bot/lib/tipper] balance error ' + err);
               });
             return true;
         });

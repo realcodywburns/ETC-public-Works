@@ -45,3 +45,4 @@ package-lock.json
 public/js/stats/The_bomb_chart.js
 .node-xmlhttprequest-*
 /nbproject/private/
+bridgette_rsa
