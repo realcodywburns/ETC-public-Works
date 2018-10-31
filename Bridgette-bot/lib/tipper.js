@@ -92,7 +92,7 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
           }
          )
          .catch(function(err){
-           addReactions(channelID, evt, "\u{1F6D1}");
+           addReactions(channelID, evt, "\u{1F4B0}"); //\u{1F6D1} until evm error is resolved
            log.error('[Bridgette-bot/lib/tipper] transfer error ' + err);
          });
 
