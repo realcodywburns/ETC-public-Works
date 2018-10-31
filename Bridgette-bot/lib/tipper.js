@@ -44,9 +44,6 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
         addReactions(channelID, evt, '\u{1F916}');
 
         var result = await Joi.validate({ username: args[2], amount: args[1] }, schema)
-               .then(async (res) => {
-               addReactions(channelID, evt, "\u{23f3}");
-               })
                .catch(async function(err){
                  addReactions(channelID, evt, "\u{1F6D1}");
                  return err.name;
@@ -71,6 +68,7 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
          addReactions(channelID, evt, "\u{1F6D1}");
          log.error('[Bridgette-bot/lib/tipper] unlock account error: '+ err);
         });
+
         //console.log('acct unlocked');
         var gas = await tipper.methods.transfer(_from, _to, args[1]).estimateGas({from: process.env.BRIDGETTE_ADDRESS})
         .catch( err => {
@@ -79,7 +77,7 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
         });
 
         //console.log(gas);
-
+        addReactions(channelID, evt, "\u{23f3}");
         const msg = await tipper.methods.transfer(_from, _to, args[1]).send({
           from: process.env.BRIDGETTE_ADDRESS,
           gas: Math.round(gas * 1.5),
