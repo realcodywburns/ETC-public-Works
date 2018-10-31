@@ -7,6 +7,7 @@ env:
   -WEB3_URL=http://localhost:8546
   -LOG_LEVEL=info
 services:
+  - docker
 before_install:
   - docker pull trufflesuite/ganache-cli
   - docker run -d -p 8546:8546 -p 3000:3000 -p 27017:27017 trufflesuite/ganache-cli
