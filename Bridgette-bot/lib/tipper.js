@@ -6,6 +6,9 @@ var dapp = require('../dapp');
 const Joi = require('joi');
 const crypto = require('crypto');
 
+var btoken = require('../../contracts/build/contracts/btoken.json');
+
+
 //joi validation schema
 const schema = Joi.object().keys({
   username: Joi.string().regex(/^<@([0-9_\-\.]+)>$/).required(),
@@ -14,7 +17,7 @@ const schema = Joi.object().keys({
 
 
 //contract
-const ABI = dapp.btoken.abi;
+const ABI = btoken.abi;
 const ADDR = dapp.btoken.address;
 
 const tipper = new web3.eth.Contract(ABI, ADDR);
