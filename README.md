@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/BurnsCapital/ETC-public-Works.svg?branch=master)](https://travis-ci.org/BurnsCapital/ETC-public-Works)
+
 # ETC-public-Works
 Public works bots and projects for the Ethereum classic chain
 

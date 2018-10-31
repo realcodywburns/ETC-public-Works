@@ -42,12 +42,21 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
       case "send" :
         //add reaction to be polite
         addReactions(channelID, evt, '\u{1F916}');
-        const result = Joi.validate({ username: args[2], amount: args[1] }, schema)
-        .catch(async function(err){
-          await addReactions(channelID, evt, "\u{1F6D1}");
-          console.log(err);
-          return true;
-        });
+
+        var result = await Joi.validate({ username: args[2], amount: args[1] }, schema)
+               .then(async (res) => {
+               console.log('all good');
+               })
+               .catch(async function(err){
+                 return err.name;
+               });
+
+               if(result == 'ValidationError'){
+                 await addReactions(channelID, evt, "\u{1F6D1}");
+                 return result;
+                 break;
+               };
+
 
         //convert to contract addreses
         var _to = "0x" + hashStuff(args[2]);

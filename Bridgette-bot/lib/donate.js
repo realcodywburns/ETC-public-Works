@@ -15,9 +15,9 @@ const ABI = splitter.abi;
 
 const splitContract = new web3.eth.Contract(ABI);
 
-
+// !donate <team> <percent(whole number)> <your address>
 module.exports = async (channelID, sender,  args) => {
-  var botMessage = "";
+var botMessage = "";
 if (args.length == 3) {
     donate = args[0];
     percent = parseInt(args[1]);
@@ -27,9 +27,10 @@ if (args.length == 3) {
     percent = parseInt(args[0]);
     owner = args[1];
   } else {
+    log.error('[Bridgette-bot/lib/donate] invalid arg length. | CHID: ' + channelID + ' sender: ' + sender + ' args:' + args);
     return{
     to: channelID,
-    message :  ' Something went wrong'
+    message :  'Something went wrong'
     }
   }
 
@@ -46,34 +47,31 @@ if (args.length == 3) {
   } else if (donate == "bcrd") {
     donateAddr = "0xCe5ED529977b08f87CBc207ebC216859820461eE";
   } else {
+    log.error('[Bridgette-bot/lib/donate] invalid group | CHID: ' + channelID + ' sender: ' + sender + ' args:' + args);
     return{
     to: channelID,
-    message :  ' Invalid group.'
+    message :  'Invalid group.'
     }
   }
 
   if (!(percent >= 1 && percent <= 99)) {
+    log.error('[Bridgette-bot/lib/donate] invalid percent | CHID: ' + channelID + ' sender: ' + sender + ' args:' + args);
     return{
     to: channelID,
-    message :  ' Invalid percent.'
-    }
-  }
-  if (!web3.utils.isAddress(donateAddr)) {
-    return{
-    to: channelID,
-    message :  ' Invalid donation address.'
+    message :  'Invalid percent.'
     }
   }
   if (!web3.utils.isAddress(owner)) {
+    log.error('[Bridgette-bot/lib/donate] invalid owner address | CHID: ' + channelID + ' sender: ' + sender + ' args:' + args);
     return{
     to: channelID,
-    message :  ' Invalid owner address.'
+    message :  'Invalid owner address.'
     }
   }
 
   //await message.reply(` We're creating the contract for you. Please wait...`);
 
-   web3.eth.personal.unlockAccount(process.env.BRIDGETTE_ADDRESS, process.env.BRIDGETTE_PW);
+  web3.eth.personal.unlockAccount(process.env.BRIDGETTE_ADDRESS, process.env.BRIDGETTE_PW);
   const newContractInstance = await splitContract.deploy({
       data: BYTECODE,
       arguments: [owner, donateAddr, percent],
@@ -84,9 +82,11 @@ if (args.length == 3) {
       gasPrice: '20000000000'
   })
   .then(function(newContractInstance){
+    log.info('[Bridgette-bot/lib/donate] new contract instance | CHID: ' + channelID + ' sender: ' + sender + ' args:' + args);
       return newContractInstance;
     })
   .catch((err) => {
+    log.error('[Bridgette-bot/lib/donate] contract creation error | err: '+ err +' CHID: ' + channelID + ' sender: ' + sender + ' args:' + args);
     return {
       to: channelID,
       message : err
