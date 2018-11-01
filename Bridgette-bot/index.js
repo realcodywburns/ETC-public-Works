@@ -23,6 +23,7 @@ var getTransaction = require('./lib/getTransactions');
 var sendSignedTransaction = require('./lib/sendSignedTransaction')
 var getGasPrice = require('./lib/getGasPrice');
 var getBlock = require('./lib/getBlock');
+var version = require('./lib/version');
 log.info('[Bridgett-bot/index.js] functions loaded');
 
 // dapps
@@ -77,6 +78,14 @@ bot.on('message', async function (user, userID, channelID, message, evt) {
               web3.eth.getBlockNumber()
               .then(blockNumber => {
                 bot.sendMessage(getBlockNumber(channelID, blockNumber));
+                  }).catch((err) => {
+                bot.sendMessage(error(channelID, err))
+              });
+            break;
+
+            // version
+            case 'version':
+              bot.sendMessage(version(channelID));
                   }).catch((err) => {
                 bot.sendMessage(error(channelID, err))
               });
@@ -197,7 +206,6 @@ bot.on('message', async function (user, userID, channelID, message, evt) {
                 message: "Query requires a payload of txId, or account, block number, or something (i.e. !query <something>)"
             });
           };
-
             break;
 
 //* dapps *//
