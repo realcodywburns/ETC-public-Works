@@ -86,9 +86,6 @@ bot.on('message', async function (user, userID, channelID, message, evt) {
             // version
             case 'version':
               bot.sendMessage(version(channelID));
-                  }).catch((err) => {
-                bot.sendMessage(error(channelID, err))
-              });
             break;
 
             // getBalance
