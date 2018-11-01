@@ -3,7 +3,7 @@ var assert = require('assert');
 
 
 //* unit under test *//
-var error = require('../lib/error');
+var version = require('../lib/version');
 
 //files needed to verify
 var pkg = require('../../package.json');
@@ -11,7 +11,7 @@ var pkg = require('../../package.json');
 module.exports =
 describe('version reporting', function() {
       it('returns correct version statement', function() {
-        var res = error('123', 'im an error');
+        var res = version('123');
         assert.equal(res.to, '123', 'version returns correct channel');
         assert.equal(res.message, "I am running version: `" + pkg.version  + "`" , 'version returns correct message');
     });
