@@ -95,9 +95,7 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
            addReactions(channelID, evt, "\u{1F4B0}"); //\u{1F6D1} until evm error is resolved
            log.error('[Bridgette-bot/lib/tipper] transfer error ' + err);
          });
-
         return true;
-
         break;
 
     //* !tipper balance *//
@@ -123,7 +121,7 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
             return true;
         });
         break;
-
+/*
         case "deposit":
 
         var account = "0x" + hashStuff("<@"+ senderID+">");
@@ -137,7 +135,7 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
             })
             .catch( err =>{
               addReactions(channelID, evt, "\u{1F6D1}");
-              log.error('[Bridgette-bot/lib/tipper] balance error ' + err);
+              log.error('[Bridgette-bot/lib/tipper] deposit error ' + err);
             });
           return true;
       });
@@ -156,10 +154,10 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
           })
           .catch( err =>{
             addReactions(channelID, evt, "\u{1F6D1}");
-            log.error('[Bridgette-bot/lib/tipper] balance error ' + err);
+            log.error('[Bridgette-bot/lib/tipper] withdraw error ' + err);
           });
         return true;
     });
-
+*/
 //end
 };
