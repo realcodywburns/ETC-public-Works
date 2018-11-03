@@ -122,7 +122,7 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
         case "deposit":
 
         var account = "0x" + hashStuff("<@"+ senderID+">");
-        await addReactions(channelID, evt, '\u{1F4B0}');
+        await addReactions(channelID, evt, '\u{1F916}');
 
         //unlock the account and send the transaction
          await web3.eth.personal.unlockAccount(process.env.BRIDGETTE_ADDRESS, process.env.BRIDGETTE_PW)
@@ -142,18 +142,11 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
            from: process.env.BRIDGETTE_ADDRESS,
            gas: Math.round(gas * 1.5),
            gasPrice: '50000000000'
-         })
-         .then(async function(receipt){
-           await addReactions(channelID, evt, '\u{1F4B0}');
-           bot.sendMessage({
-             to: channelID,
-             message :  sender + ", your deposit address is: \` "+ res +"\`"
-           });
-           log.debug('[Bridgette-bot/lib/tipper] deposit receipt: '+ receipt);
-           })
-          .catch(function(err){
-            addReactions(channelID, evt, "\u{1F4B0}"); //\u{1F6D1} until evm error is resolved
-            log.error('[Bridgette-bot/lib/tipper] deposit error ' + err);
+         });
+          await addReactions(channelID, evt, '\u{1F4B0}');
+          bot.sendMessage({
+            to: channelID,
+            message :  sender + ", your deposit address is: \` "+ dep.events[0].address +"\`"
           });
          return true;
          break;
