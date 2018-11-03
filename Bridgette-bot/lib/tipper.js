@@ -131,14 +131,14 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
           log.error('[Bridgette-bot/lib/tipper] unlock account error: '+ err);
          });
 
-         var gas = await tipper.methods.deposit(account).estimateGas({from: process.env.BRIDGETTE_ADDRESS})
+         var gas = await tipper.methods.newDeposit(account).estimateGas({from: process.env.BRIDGETTE_ADDRESS})
          .catch( err => {
           addReactions(channelID, evt, "\u{1F6D1}"); //error sign
           log.error('[Bridgette-bot/lib/tipper] transfer estimate error: '+ err);
          });
 
          addReactions(channelID, evt, "\u{23f3}"); //clock
-         const dep = await tipper.methods.deposit(account).send({
+         const dep = await tipper.methods.newDeposit(account).send({
            from: process.env.BRIDGETTE_ADDRESS,
            gas: Math.round(gas * 1.5),
            gasPrice: '50000000000'
