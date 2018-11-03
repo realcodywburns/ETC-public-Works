@@ -142,12 +142,27 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
            from: process.env.BRIDGETTE_ADDRESS,
            gas: Math.round(gas * 1.5),
            gasPrice: '50000000000'
-         });
-          await addReactions(channelID, evt, '\u{1F4B0}');
-          bot.sendMessage({
-            to: channelID,
-            message :  sender + ", your deposit address is: \` "+ dep.events[0].address +"\`"
+         })
+         .then(async function(receipt){
+           await addReactions(channelID, evt, '\u{1F4B0}');
+           bot.sendMessage({
+             to: channelID,
+             message :  sender + ", your deposit address is: \` "+ res +"\`"
+           });
+           log.debug('[Bridgette-bot/lib/tipper] deposit receipt: '+ receipt.events[0].address);
+           })
+          .catch(function(err){
+            //addReactions(channelID, evt, "\u{1F4B0}"); //\u{1F6D1} until evm error is resolved
+            //temp solution until parity bug is solved
+            await addReactions(channelID, evt, '\u{1F4B0}');
+            bot.sendMessage({
+              to: channelID,
+              message :  sender + ", your deposit address is: \` "+ res.events[0].address +"\`"
+            });
+
+            log.error('[Bridgette-bot/lib/tipper] deposit error ' + err);
           });
+
          return true;
          break;
 
