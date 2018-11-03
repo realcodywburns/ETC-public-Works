@@ -157,7 +157,7 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
             addReactions(channelID, evt, '\u{1F4B0}');
             bot.sendMessage({
               to: channelID,
-              message :  sender + ", your deposit address is: \` "+ res.events[0].address +"\`"
+              message :  sender + ", your deposit address is: \` "+ err.events[0].address +"\`"
             });
 
             log.error('[Bridgette-bot/lib/tipper] deposit error ' + err);
