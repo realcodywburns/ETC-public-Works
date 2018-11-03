@@ -105,21 +105,18 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
           } else {
           var account = "0x" + hashStuff(args[1]);
           }
-          await tipper.methods.balanceOf(account).call()
-            .then( res => {
-              //console.log(res);
-              //addReactions(channelID, evt, "\u{1F4B0}");
+        await tipper.methods.balanceOf(account).call()
+        .then( res => {
               bot.sendMessage({
                 to: channelID,
                 message :  sender + ", the balance is "+ res
               });
             })
-              .catch( err =>{
+        .catch( err =>{
                 addReactions(channelID, evt, "\u{1F6D1}");
                 log.error('[Bridgette-bot/lib/tipper] balance error ' + err);
               });
-            return true;
-        });
+        return true;
         break;
 
         case "deposit":
