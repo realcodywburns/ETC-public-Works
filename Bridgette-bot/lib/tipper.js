@@ -124,7 +124,7 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
         });
         break;
 
-        case: "deposit":
+        case "deposit":
 
         var account = "0x" + hashStuff("<@"+ senderID+">");
         await addReactions(channelID, evt, '\u{1F4B0}');
@@ -142,5 +142,24 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
           return true;
       });
       break;
+
+      case "withdraw" :
+      //!tipper withdraw 100 0x12345
+      var account = "0x" + hashStuff("<@"+ senderID+">");
+      await addReactions(channelID, evt, '\u{1F4B0}');
+      await tipper.methods.withdrawl(account, args[1], args[2] ).call()
+        .then( res => {
+          console.log(res);
+          bot.sendMessage({
+            to: channelID,
+            message :  sender + ", Your new deposit address is:"+ res.log[0].args.newAddress
+          })
+          .catch( err =>{
+            addReactions(channelID, evt, "\u{1F6D1}");
+            log.error('[Bridgette-bot/lib/tipper] balance error ' + err);
+          });
+        return true;
+    });
+
 //end
 };
