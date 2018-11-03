@@ -154,7 +154,7 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
           .catch(function(err){
             //addReactions(channelID, evt, "\u{1F4B0}"); //\u{1F6D1} until evm error is resolved
             //temp solution until parity bug is solved
-            await addReactions(channelID, evt, '\u{1F4B0}');
+            addReactions(channelID, evt, '\u{1F4B0}');
             bot.sendMessage({
               to: channelID,
               message :  sender + ", your deposit address is: \` "+ res.events[0].address +"\`"
