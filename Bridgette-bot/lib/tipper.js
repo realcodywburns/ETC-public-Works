@@ -6,7 +6,7 @@ var dapp = require('../dapp');
 const Joi = require('joi');
 const crypto = require('crypto');
 
-var btoken = require('../../contracts/build/contracts/btoken.json');
+var bottoken = require('../../contracts/build/contracts/bottoken.json');
 
 
 //joi validation schema
@@ -17,8 +17,8 @@ const schema = Joi.object().keys({
 
 
 //contract
-const ABI = btoken.abi;
-const ADDR = dapp.btoken.address;
+const ABI = bottoken.abi;
+const ADDR = dapp.bottoken.address;
 
 const tipper = new web3.eth.Contract(ABI, ADDR);
 
@@ -113,7 +113,7 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
               //console.log(res);
               //addReactions(channelID, evt, "\u{1F4B0}");
               bot.sendMessage({
-                 to: channelID,
+                to: channelID,
                 message :  sender + ", the balance is "+ res
               })
               .catch( err =>{
@@ -122,10 +122,25 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
               });
             return true;
         });
-
-
         break;
 
-        };
+        case: "deposit":
 
-      };
+        var account = "0x" + hashStuff("<@"+ senderID+">");
+        await addReactions(channelID, evt, '\u{1F4B0}');
+        await tipper.methods.newDeposit(account).call()
+          .then( res => {
+            console.log(res);
+            bot.sendMessage({
+              to: channelID,
+              message :  sender + ", Your new deposit address is:"+ res.log[0].args.newAddress
+            })
+            .catch( err =>{
+              addReactions(channelID, evt, "\u{1F6D1}");
+              log.error('[Bridgette-bot/lib/tipper] balance error ' + err);
+            });
+          return true;
+      });
+      break;
+//end
+};
