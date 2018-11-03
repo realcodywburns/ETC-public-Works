@@ -138,7 +138,7 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
          });
 
          addReactions(channelID, evt, "\u{23f3}"); //clock
-         const msg = await tipper.methods.deposit(account).send({
+         const dep = await tipper.methods.deposit(account).send({
            from: process.env.BRIDGETTE_ADDRESS,
            gas: Math.round(gas * 1.5),
            gasPrice: '50000000000'
@@ -179,7 +179,7 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
       });
 
       addReactions(channelID, evt, "\u{23f3}"); //clock
-      const msg = await tipper.methods.withdraw(account, args[1], args[2]).send({
+      const wit = await tipper.methods.withdraw(account, args[1], args[2]).send({
         from: process.env.BRIDGETTE_ADDRESS,
         gas: Math.round(gas * 1.5),
         gasPrice: '50000000000'
