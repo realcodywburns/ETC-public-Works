@@ -89,8 +89,7 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
         .then(async function(receipt){
           await addReactions(channelID, evt, '\u{1F4B0}');
           log.debug('[Bridgette-bot/lib/tipper] transfer receipt: '+ receipt);
-          }
-         )
+          })
          .catch(function(err){
            addReactions(channelID, evt, "\u{1F4B0}"); //\u{1F6D1} until evm error is resolved
            log.error('[Bridgette-bot/lib/tipper] transfer error ' + err);
@@ -113,7 +112,8 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
               bot.sendMessage({
                 to: channelID,
                 message :  sender + ", the balance is "+ res
-              })
+              });
+            })
               .catch( err =>{
                 addReactions(channelID, evt, "\u{1F6D1}");
                 log.error('[Bridgette-bot/lib/tipper] balance error ' + err);
@@ -121,43 +121,84 @@ module.exports = async (channelID, sender, senderID, args, evt ) => {
             return true;
         });
         break;
-/*
+
         case "deposit":
 
         var account = "0x" + hashStuff("<@"+ senderID+">");
         await addReactions(channelID, evt, '\u{1F4B0}');
-        await tipper.methods.newDeposit(account).call()
-          .then( res => {
-            console.log(res);
-            bot.sendMessage({
-              to: channelID,
-              message :  sender + ", Your new deposit address is:"+ res.log[0].args.newAddress
-            })
-            .catch( err =>{
-              addReactions(channelID, evt, "\u{1F6D1}");
-              log.error('[Bridgette-bot/lib/tipper] deposit error ' + err);
-            });
-          return true;
-      });
-      break;
+
+        //unlock the account and send the transaction
+         await web3.eth.personal.unlockAccount(process.env.BRIDGETTE_ADDRESS, process.env.BRIDGETTE_PW)
+         .catch( err => {
+          addReactions(channelID, evt, "\u{1F6D1}");
+          log.error('[Bridgette-bot/lib/tipper] unlock account error: '+ err);
+         });
+
+         var gas = await tipper.methods.deposit(account).estimateGas({from: process.env.BRIDGETTE_ADDRESS})
+         .catch( err => {
+          addReactions(channelID, evt, "\u{1F6D1}"); //error sign
+          log.error('[Bridgette-bot/lib/tipper] transfer estimate error: '+ err);
+         });
+
+         addReactions(channelID, evt, "\u{23f3}"); //clock
+         const msg = await tipper.methods.deposit(account).send({
+           from: process.env.BRIDGETTE_ADDRESS,
+           gas: Math.round(gas * 1.5),
+           gasPrice: '50000000000'
+         })
+         .then(async function(receipt){
+           await addReactions(channelID, evt, '\u{1F4B0}');
+           bot.sendMessage({
+             to: channelID,
+             message :  sender + ", your deposit address is: \` "+ res +"\`"
+           });
+           log.debug('[Bridgette-bot/lib/tipper] deposit receipt: '+ receipt);
+           })
+          .catch(function(err){
+            addReactions(channelID, evt, "\u{1F4B0}"); //\u{1F6D1} until evm error is resolved
+            log.error('[Bridgette-bot/lib/tipper] deposit error ' + err);
+          });
+         return true;
+         break;
 
       case "withdraw" :
       //!tipper withdraw 100 0x12345
+
       var account = "0x" + hashStuff("<@"+ senderID+">");
-      await addReactions(channelID, evt, '\u{1F4B0}');
-      await tipper.methods.withdrawl(account, args[1], args[2] ).call()
-        .then( res => {
-          console.log(res);
-          bot.sendMessage({
-            to: channelID,
-            message :  sender + ", Your new deposit address is:"+ res.log[0].args.newAddress
-          })
-          .catch( err =>{
-            addReactions(channelID, evt, "\u{1F6D1}");
-            log.error('[Bridgette-bot/lib/tipper] withdraw error ' + err);
-          });
-        return true;
-    });
-*/
+      await addReactions(channelID, evt, '\u{1F4B0}'); //robothead
+
+      //unlock the account and send the transaction
+       await web3.eth.personal.unlockAccount(process.env.BRIDGETTE_ADDRESS, process.env.BRIDGETTE_PW)
+       .catch( err => {
+        addReactions(channelID, evt, "\u{1F6D1}"); //error sign
+        log.error('[Bridgette-bot/lib/tipper] unlock account error: '+ err);
+       });
+
+       //estimate gas
+      var gas = await tipper.methods.withdraw(account, args[1], args[2]).estimateGas({from: process.env.BRIDGETTE_ADDRESS})
+      .catch( err => {
+       addReactions(channelID, evt, "\u{1F6D1}"); //error sign
+       log.error('[Bridgette-bot/lib/tipper] transfer estimate error: '+ err);
+      });
+
+      addReactions(channelID, evt, "\u{23f3}"); //clock
+      const msg = await tipper.methods.withdraw(account, args[1], args[2]).send({
+        from: process.env.BRIDGETTE_ADDRESS,
+        gas: Math.round(gas * 1.5),
+        gasPrice: '50000000000'
+      })
+      .then(async function(receipt){
+        await addReactions(channelID, evt, '\u{1F4B0}');
+        log.debug('[Bridgette-bot/lib/tipper] withdrawl receipt: '+ receipt);
+        })
+       .catch(function(err){
+         addReactions(channelID, evt, "\u{1F4B0}"); //\u{1F6D1} until evm error is resolved
+         log.error('[Bridgette-bot/lib/tipper] withdrawal error ' + err);
+       });
+      return true;
+      break;
+
+
 //end
+  };
 };
