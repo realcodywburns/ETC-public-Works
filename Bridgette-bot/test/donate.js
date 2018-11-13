@@ -7,7 +7,7 @@ var donate = require('../lib/donate');
 module.exports =
 describe('donate module', function() {
       //check error statements
-      it('o returns correct error statement if too many args', async function() {
+      it('returns correct error statement if too many args', async function() {
         var res = await donate('123', 'sender', ['0', '1', '2', '3']);
         assert.equal(res.to, '123', ' returns correct channel');
         assert.equal(res.message, 'Something went wrong', 'error returns correct message');
