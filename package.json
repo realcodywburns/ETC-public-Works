@@ -9,7 +9,7 @@
     "test": "test"
   },
   "scripts": {
-    "start": "node index",
+    "start": "forever node index",
     "test": "mocha"
   },
   "repository": {

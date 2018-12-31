@@ -10,6 +10,7 @@ services:
      - DISCORD_TOKEN=<your_token_no_quotes>
      - BRIDGETTE_ADDRESS=0x172E7cd98bbe151640A84058eE9223708860B45A
      - BRIDGETTE_PW=<super_password_no_quotes>
+    restart: always
     ports:
      - '8546:8546'
      - '80:80'
