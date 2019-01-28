@@ -7,22 +7,21 @@
 
 pragma solidity ^0.4.19;
 
-/* Intended use:
- * Sends a small amount of ether to whomever calls the default function
- * Status: functional
- * still needs:
-*/ submit pr and issues to https://github.com/burnscapital/etc-public-works
 
 contract owned{
-  function owned () public {owner = msg.sender;}
-  address owner;
-  modifier onlyOwner {
-          require(msg.sender == owner);
-          _;
-          }
+  function owned () public {
+      owner = msg.sender;
+      
   }
+  address owner;
+  
+  modifier onlyOwner {
+    require(msg.sender == owner);
+    _;
+  }
+}
 
-contract faucet is owned{
+contract faucet is owned {
 
 ////////////////
 //Global VARS//////////////////////////////////////////////////////////////////////////
@@ -31,22 +30,16 @@ contract faucet is owned{
 /* int */
 
   uint public lastDrip;
-  uint public dripRate;
   uint public dropValue;
   uint public runningCount;
   uint public blockTarget;
   
-  bytes32 public difficulty;
-  bytes32 parentDiff;
+  int public difficulty;
+  int parentDiff;
   
 
-  modifier PoWcheck( bytes32 value, bytes32 nonce ){
-    require(sha256( value , nonce ) <= difficulty);
-  
-    // adjust PoW to target the blocktarget
-    parentDiff = difficulty;
-    difficulty = parentDiff + parentDiff % 2048 * max( 1-( now - lastDrip ) % blockTarget, -99 )  
-    lastDrip = now;
+  modifier PoWcheck( address value, bytes32 nonce ){
+    require(sha256( value , block.number, nonce ) <= bytes32(difficulty));
     _;
   
   }   
@@ -58,41 +51,68 @@ contract faucet is owned{
   event Payouts(address rewarded, uint drip);
   event DripSet(uint dripset);
   event Donation(address coolperson, uint paid);
-
+  event NewDiff(int _foo, int _bar, int pd,  bytes32 difficulty);
+ 
   ////////////// 
   //Operations////////////////////////////////////////////////////////////////////////
   //////////////
 
   /* init */
-  function faucet(uint _dropValue, uint _dripRate) public {
+  function faucet(uint _dropValue) public {
     dropValue = _dropValue;
-    dripRate = _dripRate;
     runningCount = 0;
     lastDrip = now;
     owner = msg.sender;
-    difficulty = 0xff00000000000000000000000000000000000000000000000000000000000000;
+    difficulty = int256(21258703883413520253546235528938795582436286247207447304119165813952801144832) ;
     blockTarget = 300;
   }
-
+  
+  function max(int a, int b) private pure returns (int) {
+        return a > b ? a : b;
+  }
+  
   /* public */
   function () public payable{
     Donation(msg.sender, msg.value);
   }
 
   function getETC( address _payout, bytes32 nonce ) public PoWcheck( _payout, nonce ) {
+    
+    require(newDiff());
+    
     _payout.transfer( dropValue );
     runningCount += dropValue;
     Payouts(_payout, dropValue);
-    
   }
 
   /* onlyOwner */
 
-  function dripSet ( uint _dropValue, uint _difficulty, uint _blocktarget ) public onlyOwner{
+  function dripSet ( uint _dropValue, int _difficulty, uint _blockTarget ) public onlyOwner{
     dropValue = _dropValue;
     difficulty = _difficulty;
     blockTarget = _blockTarget;
     DripSet(dropValue);
+  }
+
+  function newDiff() internal returns( bool ) {
+    // adjust PoW to target the blocktarget
+    parentDiff = difficulty;
+    int foo = max( (1 - ( int(now) - int(lastDrip) ) % int(blockTarget)), -99 );
+    int bar =  2048 * foo;
+    int pd = parentDiff % bar;
+    difficulty = parentDiff + bar;
+    lastDrip = now;
+    NewDiff(foo, bar, pd, bytes32(difficulty));
+    return(true);
+  } 
+  function selfTest( address value, bytes32 nonce ) 
+    public
+    view
+    returns ( byte status , bool isPoW, bytes32 hash, bytes32 diff ){
+      hash = sha256( value , block.number, nonce );
+      isPoW = hash < bytes32(difficulty);    
+      diff = bytes32(difficulty);
+      return ( hex'01', isPoW, hash, diff ) ;  
   }
 
   ////////////
@@ -105,29 +125,3 @@ contract faucet is owned{
     selfdestruct( owner );
   }
 }
-
-
-/////////////////////////////////////////////////////////////////////////////
-// 88888b   d888b  88b  88 8 888888         _.-----._
-// 88   88 88   88 888b 88 P   88   \)|)_ ,'         `. _))|)
-// 88   88 88   88 88`8b88     88    );-'/             \`-:(
-// 88   88 88   88 88 `888     88   //  :               :  \\   .
-// 88888P   T888P  88  `88     88  //_,'; ,.         ,. |___\\
-//    .           __,...,--.       `---':(  `-.___.-'  );----'
-//              ,' :    |   \            \`. `'-'-'' ,'/
-//             :   |    ;   ::            `.`-.,-.-.','
-//     |    ,-.|   :  _//`. ;|              ``---\` :
-//   -(o)- (   \ .- \  `._// |    *               `.'       *
-//     |   |\   :   : _ |.-  :              .        .
-//     .   :\: -:  _|\_||  .-(    _..----..
-//         :_:  _\\_`.--'  _  \,-'      __ \
-//         .` \\_,)--'/ .'    (      ..'--`'          ,-.
-//         |.- `-'.-               ,'                (///)
-//         :  ,'     .            ;             *     `-'
-//   *     :         :           /
-//          \      ,'         _,'   88888b   888    88b  88 88  d888b  88
-//           `._       `-  ,-'      88   88 88 88   888b 88 88 88   `  88
-//            : `--..     :        *88888P 88   88  88`8b88 88 88      88
-//        .   |           |         88    d8888888b 88 `888 88 88   ,  `"	.
-//            |           |         88    88     8b 88  `88 88  T888P  88
-/////////////////////////////////////////////////////////////////////////
