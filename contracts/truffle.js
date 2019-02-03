@@ -20,11 +20,11 @@ module.exports = {
       port: 8545,
       network_id: "61",
       from: "0x9552ae966A8cA4E0e2a182a2D9378506eB057580"
+    },
   },
-  
   compilers: {
     solc: {
       version: "0.4.20"
     }
   }
-}
+};
