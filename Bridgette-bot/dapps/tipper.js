@@ -1,4 +1,4 @@
-var dapp = require('../dapp');
+var dapp = require('./dapp');
 const Joi = require('joi');
 const crypto = require('crypto');
 
