@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "start": "mocha --exit && forever start index.js",
+    "start": "mocha --exit && node index.js",
     "test": "mocha --exit",
     "stop": "forever stop index.js"
   },
