@@ -1,4 +1,4 @@
-const { botUnits, log, web3 } = require('./common');
+const { botUnits, log, web3 } = require('../common');
 
 log.debug('[Bridgette-bot/lib/etcmail] etcmail loaded');
 

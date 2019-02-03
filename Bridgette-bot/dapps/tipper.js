@@ -2,7 +2,7 @@ var dapp = require('../dapp');
 const Joi = require('joi');
 const crypto = require('crypto');
 
-const { bot, log, web3 } = require('./common');
+const { bot, log, web3 } = require('../common');
 
 var bottoken = require('../../contracts/build/contracts/bottoken.json');
 

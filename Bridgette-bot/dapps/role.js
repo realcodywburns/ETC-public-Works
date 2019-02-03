@@ -1,4 +1,4 @@
-const { log } = require('./common');
+const { log } = require('../common');
 
 log.debug('[Bridgette-bot/lib/statebot] statebot loaded');
 

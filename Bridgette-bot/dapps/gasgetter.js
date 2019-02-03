@@ -1,4 +1,4 @@
-const { log, web3 } = require('./common');
+const { log, web3 } = require('../common');
 
 log.debug('[Bridgette-bot/lib/gasgetter] gasgetter loaded');
 
@@ -12,4 +12,4 @@ module.exports = (_contractAddr, _data) => {
   .catch((err) => {
     return err;
   }
-}
+};

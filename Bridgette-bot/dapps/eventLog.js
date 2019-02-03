@@ -1,4 +1,4 @@
-const { web3 } = require('./common');
+const { web3 } = require('../common');
 
 var dapp = require('./dapp');
 

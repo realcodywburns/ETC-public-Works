@@ -1,6 +1,6 @@
 // based on bot made by the ellisiam team
 
-const { log, web3 } = require('./common');
+const { log, web3 } = require('../common');
 
 log.debug('[Bridgette-bot/lib/statebot] statebot loaded');
 
