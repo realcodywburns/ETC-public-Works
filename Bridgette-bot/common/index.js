@@ -9,8 +9,8 @@ var web3 = require( "./etherNode" );
 
 module.exports = {
     botUnits : botUnits,
-    bot  : discord,
-    log  : logger,
+    bot  : bot,
+    log  : log,
     web3 : web3,
 
 }
