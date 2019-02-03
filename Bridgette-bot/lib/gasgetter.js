@@ -1,7 +1,4 @@
-var web3 = require('../common/etherNode');
-var botUnits = require('../common/botUnits');
-const bot = require('../common/discord');
-const log = require('../common/logger');
+const { log, web3 } = require('./common');
 
 log.debug('[Bridgette-bot/lib/gasgetter] gasgetter loaded');
 

@@ -15,3 +15,5 @@ module.exports = {
     watson = watson,
 }
 
+//copy paste version
+// const { bot, botUnits, log, web3, watson } = require('./common');

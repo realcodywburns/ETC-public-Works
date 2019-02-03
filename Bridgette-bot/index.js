@@ -1,7 +1,4 @@
-const bot = require('./common/discord');
-const log = require('./common/logger');
-var web3 = require('./common/etherNode');
-
+const { bot, log, web3 } = require('./common');
 
 // Initialize Discord Bot
 

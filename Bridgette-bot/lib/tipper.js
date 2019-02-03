@@ -1,10 +1,8 @@
-var web3 = require('../common/etherNode');
-var botUnits = require('../common/botUnits');
-const bot = require('../common/discord');
-const log = require('../common/logger');
 var dapp = require('../dapp');
 const Joi = require('joi');
 const crypto = require('crypto');
+
+const { bot, log, web3 } = require('./common');
 
 var bottoken = require('../../contracts/build/contracts/bottoken.json');
 
