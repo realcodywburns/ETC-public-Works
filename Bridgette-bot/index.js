@@ -17,14 +17,7 @@ function isNumber(n) {
 const { getBlockNumber, getBalance, getTransaction, sendSignedTransaction, getGasPrice, getBlock, version, error } = require( "./funcs" );
 
 // dapps
-var statebot = require('./lib/statebot');
-var multi = require('./lib/multi-sig');
-var donate = require('./lib/donate');
-var getetc = require('./lib/getetc');
-var etcmail = require('./lib/etcmail');
-var eventLog = require('./lib/eventLog');
-var tipper = require('./lib/tipper');
-log.info('[Bridgett-bot/index.js] dapps loaded');
+
 
 // help files
 var bridgette = require('./help/bridgette');
