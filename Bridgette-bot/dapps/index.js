@@ -1,13 +1,13 @@
 // common functions
 const { log } = require('../common');
 
-var statebot = require('./lib/statebot');
-var multi = require('./lib/multi-sig');
-var donate = require('./lib/donate');
-var getetc = require('./lib/getetc');
-var etcmail = require('./lib/etcmail');
-var eventLog = require('./lib/eventLog');
-var tipper = require('./lib/tipper');
+var statebot = require('./statebot');
+var multi = require('./multi-sig');
+var donate = require('./donate');
+var getetc = require('./getetc');
+var etcmail = require('./etcmail');
+var eventLog = require('./eventLog');
+var tipper = require('./tipper');
 
 log.info('[Bridgett-bot/dapps/index.js] dapps loaded');
 
