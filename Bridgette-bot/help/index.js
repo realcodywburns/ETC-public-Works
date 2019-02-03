@@ -1,5 +1,5 @@
 // help files
-const { log } = require(../common);
+const { log } = require('../common');
 
 var bridgette = require('./help/bridgette');
 var donatehelp = require('./help/donatehelp');

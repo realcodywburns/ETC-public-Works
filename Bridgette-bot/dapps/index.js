@@ -1,5 +1,5 @@
 // common functions
-const { log } = require(../common);
+const { log } = require('../common');
 
 var statebot = require('./lib/statebot');
 var multi = require('./lib/multi-sig');

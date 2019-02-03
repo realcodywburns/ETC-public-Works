@@ -1,5 +1,5 @@
 // common functions
-const { log } = require(../common);
+const { log } = require('../common');
 
 var getBlockNumber = require('./getblocknumber');
 var getBalance = require('./getBalance');
