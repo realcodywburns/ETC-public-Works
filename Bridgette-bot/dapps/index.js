@@ -9,7 +9,7 @@ var etcmail = require('./lib/etcmail');
 var eventLog = require('./lib/eventLog');
 var tipper = require('./lib/tipper');
 
-log.info('[Bridgett-bot/index.js] dapps loaded');
+log.info('[Bridgett-bot/dapps/index.js] dapps loaded');
 
 module.exports = {
     statebot : statebot,

@@ -2,7 +2,7 @@ const { botUnits, log, web3 } = require('./common');
 
 log.debug('[Bridgette-bot/lib/etcmail] etcmail loaded');
 
-var dapp = require('../dapp');
+var dapp = require('./dapp');
 
 const ABI = dapp.a2a.abi;
 const ADDR = dapp.a2a.address;

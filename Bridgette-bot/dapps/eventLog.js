@@ -1,6 +1,6 @@
 const { web3 } = require('./common');
 
-var dapp = require('../dapp');
+var dapp = require('./dapp');
 
 const ABI = dapp.eventLog.abi;
 const ADDR = dapp.eventLog.address;

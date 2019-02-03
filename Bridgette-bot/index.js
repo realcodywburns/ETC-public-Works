@@ -21,11 +21,8 @@ const { getBlockNumber, getBalance, getTransaction, sendSignedTransaction, getGa
 const { statebot, multi, donate, getetc, etcmail, eventLog, tipper } = require( "./dapps" );
 
 // help files
-var bridgette = require('./help/bridgette');
-var donatehelp = require('./help/donatehelp');
-var etcmailhelp = require('./help/etcmailhelp');
-var tipperError = require('./help/tipperError');
 
+const { bridgette, donatehelp, etcmailhelp, tipperError } = require( "./help" );
 
 //* end functoin set*//
 

@@ -10,7 +10,7 @@ var getBlock = require('./getBlock');
 var version = require('./version');
 var error = require('./error');
 
-log.info('[Bridgett-bot/index.js] functions loaded');
+log.info('[Bridgett-bot/funcs/index.js] functions loaded');
 
 module.exports = {
     getBlockNumber : getBlockNumber,
