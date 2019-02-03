@@ -7,8 +7,9 @@
     "test": "test"
   },
   "scripts": {
-    "start": "forever start index",
-    "test": "mocha --exit"
+    "start": "mocha --exit && forever start index.js",
+    "test": "mocha --exit",
+    "stop": "forever stop index.js"
   },
   "repository": {
     "type": "git",
