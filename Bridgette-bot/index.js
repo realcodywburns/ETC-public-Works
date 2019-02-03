@@ -14,14 +14,7 @@ function isNumber(n) {
 
 //* Get functions from library *//
 
-var getBlockNumber = require('./lib/getblocknumber');
-var getBalance = require('./lib/getBalance');
-var getTransaction = require('./lib/getTransactions');
-var sendSignedTransaction = require('./lib/sendSignedTransaction')
-var getGasPrice = require('./lib/getGasPrice');
-var getBlock = require('./lib/getBlock');
-var version = require('./lib/version');
-log.info('[Bridgett-bot/index.js] functions loaded');
+const { getBlockNumber, getBalance, getTransaction, sendSignedTransaction, getGasPrice, getBlock, version, error } = require( "./funcs" );
 
 // dapps
 var statebot = require('./lib/statebot');
@@ -39,9 +32,6 @@ var donatehelp = require('./help/donatehelp');
 var etcmailhelp = require('./help/etcmailhelp');
 var tipperError = require('./help/tipperError');
 
-
-var error = require('./lib/error');
-log.info('[Bridgett-bot/index.js] help/error loaded');
 
 //* end functoin set*//
 

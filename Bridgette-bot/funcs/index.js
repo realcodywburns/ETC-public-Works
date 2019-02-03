@@ -8,6 +8,7 @@ var sendSignedTransaction = require('./sendSignedTransaction')
 var getGasPrice = require('./getGasPrice');
 var getBlock = require('./getBlock');
 var version = require('./version');
+var error = require('./error');
 
 log.info('[Bridgett-bot/index.js] functions loaded');
 
@@ -19,7 +20,8 @@ module.exports = {
     getGasPrice = getGasPrice,
     getBlock = getBlock,
     version = version,
+    error = error,
 }
 
 // copy paste 
-// const { getBlockNumber, getBalance, getTransaction, sendSignedTransaction, getGasPrice, getBlock, version } = require( "./funcs" );
+// const { getBlockNumber, getBalance, getTransaction, sendSignedTransaction, getGasPrice, getBlock, version, error } = require( "./funcs" );
