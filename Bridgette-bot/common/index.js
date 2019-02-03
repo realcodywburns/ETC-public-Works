@@ -8,11 +8,11 @@ var watson = require( './watson' );
 
 
 module.exports = {
-    botUnits = botUnits,
-    bot  = discord,
-    log  = logger,
-    web3 = web3,
-    watson = watson,
+    botUnits : botUnits,
+    bot  : discord,
+    log  : logger,
+    web3 : web3,
+    watson : watson,
 }
 
 //copy paste version

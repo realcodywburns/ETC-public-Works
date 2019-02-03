@@ -13,14 +13,14 @@ var error = require('./error');
 log.info('[Bridgett-bot/index.js] functions loaded');
 
 module.exports = {
-    getBlockNumber = getBlockNumber,
-    getBalance = getBalance,
-    getTransaction = getTransaction,
-    sendSignedTransaction = sendSignedTransaction,
-    getGasPrice = getGasPrice,
-    getBlock = getBlock,
-    version = version,
-    error = error,
+    getBlockNumber : getBlockNumber,
+    getBalance : getBalance,
+    getTransaction : getTransaction,
+    sendSignedTransaction : sendSignedTransaction,
+    getGasPrice : getGasPrice,
+    getBlock : getBlock,
+    version : version,
+    error : error,
 }
 
 // copy paste 

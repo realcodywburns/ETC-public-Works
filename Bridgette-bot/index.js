@@ -18,6 +18,7 @@ const { getBlockNumber, getBalance, getTransaction, sendSignedTransaction, getGa
 
 // dapps
 
+const { statebot, multi, donate, getetc, etcmail, eventLog, tipper } = require( "./dapps" );
 
 // help files
 var bridgette = require('./help/bridgette');
