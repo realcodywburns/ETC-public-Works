@@ -1,7 +1,7 @@
 var assert = require('assert');
 
 //* unit under test *//
-const { error } = require( "./funcs" );
+const { error } = require( "../funcs" );
 
 module.exports =
 describe('error reporting', function() {

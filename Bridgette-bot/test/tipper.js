@@ -1,7 +1,7 @@
 var assert = require('assert');
 
 //* unit under test *//
-const { tipper } = require( "./dapps" );
+const { tipper } = require( "../dapps" );
 
 var sendCase = {
   channelID : "12345",

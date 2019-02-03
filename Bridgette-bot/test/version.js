@@ -1,7 +1,7 @@
 var assert = require('assert');
 
 //* unit under test *//
-const { version } = require( "./funcs" );
+const { version } = require( "../funcs" );
 
 //files needed to verify
 var pkg = require('../../package.json');

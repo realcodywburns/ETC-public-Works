@@ -1,7 +1,7 @@
 var assert = require('assert');
 
 //* unit under test *//
-const { donate } = require( "./dapps" );
+const { donate } = require( "../dapps" );
 
 //!donate <team> <percent(whole number)> <your address>
 module.exports =
