@@ -1,7 +1,4 @@
-const bot = require('./common/discord');
-const log = require('./common/logger');
-var web3 = require('./common/etherNode');
-
+const { bot, log, web3 } = require('./common');
 
 // Initialize Discord Bot
 
@@ -17,33 +14,15 @@ function isNumber(n) {
 
 //* Get functions from library *//
 
-var getBlockNumber = require('./lib/getblocknumber');
-var getBalance = require('./lib/getBalance');
-var getTransaction = require('./lib/getTransactions');
-var sendSignedTransaction = require('./lib/sendSignedTransaction')
-var getGasPrice = require('./lib/getGasPrice');
-var getBlock = require('./lib/getBlock');
-log.info('[Bridgett-bot/index.js] functions loaded');
+const { getBlockNumber, getBalance, getTransaction, sendSignedTransaction, getGasPrice, getBlock, version, error } = require( "./funcs" );
 
 // dapps
-var statebot = require('./lib/statebot');
-var multi = require('./lib/multi-sig');
-var donate = require('./lib/donate');
-var getetc = require('./lib/getetc');
-var etcmail = require('./lib/etcmail');
-var eventLog = require('./lib/eventLog');
-var tipper = require('./lib/tipper');
-log.info('[Bridgett-bot/index.js] dapps loaded');
+
+const { statebot, multi, donate, getetc, etcmail, eventLog, tipper } = require( "./dapps" );
 
 // help files
-var bridgette = require('./help/bridgette');
-var donatehelp = require('./help/donatehelp');
-var etcmailhelp = require('./help/etcmailhelp');
-var tipperError = require('./help/tipperError');
 
-
-var error = require('./lib/error');
-log.info('[Bridgett-bot/index.js] help/error loaded');
+const { bridgette, donatehelp, etcmailhelp, tipperError } = require( "./help" );
 
 //* end functoin set*//
 
@@ -80,6 +59,11 @@ bot.on('message', async function (user, userID, channelID, message, evt) {
                   }).catch((err) => {
                 bot.sendMessage(error(channelID, err))
               });
+            break;
+
+            // version
+            case 'version':
+              bot.sendMessage(version(channelID));
             break;
 
             // getBalance
@@ -197,7 +181,6 @@ bot.on('message', async function (user, userID, channelID, message, evt) {
                 message: "Query requires a payload of txId, or account, block number, or something (i.e. !query <something>)"
             });
           };
-
             break;
 
 //* dapps *//

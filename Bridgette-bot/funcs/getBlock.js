@@ -1,5 +1,3 @@
-var web3 = require('web3');
-
 module.exports = (channelID, funcs, rawBlk) => {
 
   //transactions = rawBlk.transactions.length;

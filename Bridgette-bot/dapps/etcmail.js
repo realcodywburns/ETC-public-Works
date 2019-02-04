@@ -1,11 +1,8 @@
-var web3 = require('../common/etherNode');
-var botUnits = require('../common/botUnits');
-const bot = require('../common/discord');
-const log = require('../common/logger');
+const { botUnits, log, web3 } = require('../common');
 
 log.debug('[Bridgette-bot/lib/etcmail] etcmail loaded');
 
-var dapp = require('../dapp');
+var dapp = require('./dapp');
 
 const ABI = dapp.a2a.abi;
 const ADDR = dapp.a2a.address;

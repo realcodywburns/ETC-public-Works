@@ -1,14 +1,14 @@
 {
   "name": "etc-public-works",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "collection of public repos for ethereum classic",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "start": "forever node index",
-    "test": "mocha"
+    "start": "forever start index",
+    "test": "mocha --exit"
   },
   "repository": {
     "type": "git",
@@ -26,9 +26,10 @@
     "dotenv": "^6.1.0",
     "forever": "^0.15.3",
     "joi": "^14.0.1",
-    "mocha": "^5.0.4",
-    "truffle": "^4.1.3",
-    "web3": "^1.0.0-beta.30",
+    "mocha": "^5.2.0",
+    "truffle": "^5.0.3",
+    "watson-developer-cloud": "^3.16.1",
+    "web3": "^1.0.0-beta.41",
     "winston": "^3.1.0"
   }
 }
