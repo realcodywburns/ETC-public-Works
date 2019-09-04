@@ -1,0 +1,22 @@
+language: node_js
+sudo: required
+dist: trusty
+node_js: '8'
+env:
+  -CXX=g++-4.8
+  -WEB3_URL=http://localhost:8546
+  -LOG_LEVEL=info
+services:
+  - docker
+before_install:
+  - docker pull trufflesuite/ganache-cli
+  - docker run -d -p 8546:8546 -p 3000:3000 -p 27017:27017 trufflesuite/ganache-cli
+install:
+  - npm i -g truffle
+  - npm i
+script:
+  - cd contracts && truffle compile --all && cd ..
+  - npm run test
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t bcrd/etc-public-works:$TRAVIS_BRANCH .
+  - docker push bcrd/etc-public-works:$TRAVIS_BRANCH

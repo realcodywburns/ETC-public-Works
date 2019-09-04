@@ -1,5 +1,0 @@
-var web3 = require('./etherNode');
-
-var abiArray = [{"constant":true,"inputs":[],"name":"dateUpdated","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":false,"inputs":[{"name":"_newipfs","type":"string"}],"name":"updater","outputs":[],"payable":false,"type":"function"},{"constant":false,"inputs":[],"name":"kill","outputs":[],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_id","type":"uint256"}],"name":"olddate","outputs":[{"name":"","type":"uint256"}],"payable":false,"type":"function"},{"constant":true,"inputs":[{"name":"_id","type":"uint256"}],"name":"oldstate","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"constant":true,"inputs":[],"name":"currentAddr","outputs":[{"name":"","type":"string"}],"payable":false,"type":"function"},{"anonymous":false,"inputs":[{"indexed":false,"name":"comment","type":"string"}],"name":"stateUpdate","type":"event"}];
-var contractAddress = "0x28bfbf40bf22e3e78767fa3ba321e7311374ddda";
-module.exports = new web3.eth.Contract(abiArray, contractAddress);

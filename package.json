@@ -1,0 +1,36 @@
+{
+  "name": "etc-public-works",
+  "version": "1.1.1",
+  "description": "collection of public repos for ethereum classic",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "mocha --exit && node index.js",
+    "test": "mocha --exit",
+    "stop": "forever stop index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/burnscapital/ETC-public-Works.git"
+  },
+  "author": "Cody.w.Burns@gmail.com",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/burnscapital/ETC-public-Works/issues"
+  },
+  "homepage": "https://github.com/burnscapital/ETC-public-Works#readme",
+  "dependencies": {
+    "commander": "^2.19.0",
+    "discord.io-gateway6": "^2.5.3",
+    "dotenv": "^6.1.0",
+    "forever": "^0.15.3",
+    "joi": "^14.0.1",
+    "mocha": "^5.2.0",
+    "truffle": "^5.0.3",
+    "watson-developer-cloud": "^3.16.1",
+    "web3": "^1.0.0-beta.41",
+    "winston": "^3.1.0"
+  }
+}
