@@ -187,7 +187,25 @@ bot.on('message', async function (user, userID, channelID, message, evt) {
             case 'atlantis':
               web3.eth.getBlockNumber()
               .then(blockNumber => {
-                bot.sendMessage(atlantis(channelID, blockNumber));
+                bot.sendMessage(atlantis(channelID, "Atlantis", 8772000, blockNumber));
+                  }).catch((err) => {
+                bot.sendMessage(error(channelID, err))
+              });
+            break;
+
+        case 'agharta':
+              web3.eth.getBlockNumber()
+              .then(blockNumber => {
+                bot.sendMessage(atlantis(channelID, "Agharta", 9200000, blockNumber));
+                  }).catch((err) => {
+                bot.sendMessage(error(channelID, err))
+              });
+            break;
+
+       case 'ecip1017':
+              web3.eth.getBlockNumber()
+              .then(blockNumber => {
+                bot.sendMessage(atlantis(channelID, "ECIP1017", 10000000, blockNumber));
                   }).catch((err) => {
                 bot.sendMessage(error(channelID, err))
               });
